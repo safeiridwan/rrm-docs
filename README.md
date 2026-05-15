@@ -138,7 +138,6 @@ Settings
 | 66 | System | Functional Testing | 3 |
 | 67 | System | Bug Fixing | 2 |
 | 68 | System | Deployment | 2 |
-
 |  |  | **TOTAL** | **± 65 MD** |
 ---
 
