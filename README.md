@@ -55,10 +55,6 @@ Operations
 Marketing
  ├── Referral Reward
 
-Reports
- ├── Revenue
- ├── Departure Report
-
 Settings
  ├── User Management
  ├── Roles & Permission
@@ -622,43 +618,6 @@ sequenceDiagram
     System->>System: Generate booking reward
 
     System-->>Admin: Reward berhasil digunakan
-```
-
----
-
-# Reports → Revenue
-
-```mermaid
-sequenceDiagram
-
-    actor Owner
-    participant System
-
-    Owner->>System: Pilih periode laporan
-
-    System->>System: Ambil seluruh pembayaran
-    System->>System: Hitung revenue per paket
-    System->>System: Hitung revenue per agen
-
-    System-->>Owner: Tampilkan revenue report
-```
-
----
-
-# Reports → Departure Report
-
-```mermaid
-sequenceDiagram
-
-    actor Owner
-    participant System
-
-    Owner->>System: Pilih periode keberangkatan
-
-    System->>System: Ambil booking confirmed
-    System->>System: Kelompokkan per paket
-
-    System-->>Owner: Tampilkan departure report
 ```
 
 ---
