@@ -66,82 +66,196 @@ Settings
 
 ---
 
-# 2. Effort Task & Mandays
+# 2. Effort Task, Mandays & Cost Estimation
 
-| No | Menu | Task | Mandays |
-|----|------|------|---------:|
-| 1 | Dashboard | Dashboard KPI Summary | 1 |
-| 2 | Dashboard | Recent Activity | 1 |
-| 3 | Dashboard | Alert Notification | 1 |
-| 4 | Master Data > Jamaah | Create Data Jamaah | 1 |
-| 5 | Master Data > Jamaah | Read List Data Jamaah | 1 |
-| 6 | Master Data > Jamaah | Read Detail Data Jamaah | 1 |
-| 7 | Master Data > Jamaah | Update Data Jamaah | 1 |
-| 8 | Master Data > Jamaah | Delete Data Jamaah | 0.5 |
-| 9 | Master Data > Jamaah | Search & Filter Jamaah | 1 |
-| 10 | Master Data > Jamaah | Upload Passport / Documents | 1.5 |
-| 11 | Master Data > Paket Program | Create Paket Program | 1 |
-| 12 | Master Data > Paket Program | Read List Paket Program | 1 |
-| 13 | Master Data > Paket Program | Read Detail Paket Program | 1 |
-| 14 | Master Data > Paket Program | Update Paket Program | 1 |
-| 15 | Master Data > Paket Program | Delete Paket Program | 0.5 |
-| 16 | Master Data > Paket Program | Package Quota Management | 1 |
-| 17 | Master Data > Paket Program | Package Price Management | 1 |
-| 18 | Master Data > Agen | Create Agen | 0.5 |
-| 19 | Master Data > Agen | Read List Agen | 0.5 |
-| 20 | Master Data > Agen | Read Detail Agen | 0.5 |
-| 21 | Master Data > Agen | Update Agen | 0.5 |
-| 22 | Master Data > Agen | Delete Agen | 0.5 |
-| 23 | Master Data > Agen | Agent Performance View | 1 |
-| 24 | Booking > Booking | Create Booking | 1.5 |
-| 25 | Booking > Booking | Read Booking List | 1 |
-| 26 | Booking > Booking | Read Booking Detail | 1 |
-| 27 | Booking > Booking | Update Booking Status | 1 |
-| 28 | Booking > Booking | Cancel Booking | 1 |
-| 29 | Booking > Booking | Booking Validation | 1 |
-| 30 | Booking > Seat Monitoring | Seat Occupancy Calculation | 1 |
-| 31 | Booking > Seat Monitoring | Seat Availability Monitoring | 1 |
-| 32 | Booking > Seat Monitoring | Seat Alert | 1 |
-| 33 | Finance > Invoice | Generate Invoice | 1 |
-| 34 | Finance > Invoice | Preview Invoice | 1 |
-| 35 | Finance > Invoice | Download PDF Invoice | 1.5 |
-| 36 | Finance > Payment | Create DP Payment | 1 |
-| 37 | Finance > Payment | Create Installment Payment | 1.5 |
-| 38 | Finance > Payment | Create Full Payment | 1 |
-| 39 | Finance > Payment | Upload Payment Proof | 1 |
-| 40 | Finance > Payment | Payment History | 1 |
-| 41 | Finance > Outstanding | Outstanding List | 1 |
-| 42 | Finance > Outstanding | Outstanding Detail | 1 |
-| 43 | Finance > Outstanding | H-35 Due Monitoring | 1.5 |
-| 44 | Finance > Outstanding | Outstanding Alert | 1 |
-| 45 | Operations > Manifest | Generate Excel Manifest | 1 |
-| 46 | Operations > Manifest | Generate PDF Manifest | 1 |
-| 47 | Operations > Manifest | Package Filter | 1 |
-| 48 | Operations > Passport Documents | Download Single Passport | 1 |
-| 49 | Operations > Passport Documents | Bulk Download ZIP | 2 |
-| 50 | Marketing > Referral Reward | Assign Referrer | 1 |
-| 51 | Marketing > Referral Reward | Referral Tracking | 1 |
-| 52 | Marketing > Referral Reward | Referral Qualification Engine | 2 |
-| 53 | Marketing > Referral Reward | Claim Free Seat | 1.5 |
-| 54 | Reports > Revenue | Revenue Summary | 1 |
-| 55 | Reports > Revenue | Revenue Per Package | 1 |
-| 56 | Reports > Revenue | Revenue Per Agent | 1 |
-| 57 | Reports > Departure Report | Departure Summary | 1 |
-| 58 | Reports > Departure Report | Departure Detail | 1 |
-| 59 | Reports > Departure Report | Export Report | 1 |
-| 60 | Settings > User Management | Create User | 1 |
-| 61 | Settings > User Management | Update User | 1 |
-| 62 | Settings > User Management | Disable User | 1 |
-| 63 | Settings > Roles & Permission | Create Role | 1 |
-| 64 | Settings > Roles & Permission | Assign Permission | 1 |
-| 65 | Settings > Roles & Permission | Update Permission | 1 |
-| 66 | System | Functional Testing | 3 |
-| 67 | System | Bug Fixing | 2 |
-| 68 | System | Deployment | 2 |
-|  |  | **TOTAL** | **± 65 MD** |
+## Development Rate
+
+| Item | Value |
+|------|------:|
+| Standard Rate | Rp 375.000 / MD |
+| Special Discount Rate | Rp 250.000 / MD |
+| Discount | Rp 125.000 / MD (33%) |
+| Total Mandays | 35.5 MD |
+| Total Development Cost | Rp 8.875.000 |
+
 ---
 
-# 3. ERD
+## Notes
+
+- Harga normal pengembangan adalah **Rp 375.000 / manday**
+- Untuk proyek ini diberikan **harga khusus Rp 250.000 / manday**
+- Total nilai proyek sebelum diskon:
+
+  **35.5 MD × Rp 375.000 = Rp 13.312.500**
+
+- Total nilai proyek setelah diskon:
+
+  **35.5 MD × Rp 250.000 = Rp 8.875.000**
+
+- Total diskon yang diberikan:
+
+  **Rp 4.437.500 (~33%)**
+
+---
+
+| No | Menu | Task | Mandays | Cost |
+|----|------|------|---------:|------:|
+| 1 | Dashboard | Dashboard KPI Summary | 1 | Rp 250.000 |
+| 2 | Dashboard | Recent Activity | 1 | Rp 250.000 |
+| 3 | Dashboard | Alert Notification | 1 | Rp 250.000 |
+| 4 | Master Data > Jamaah | Create Data Jamaah | 0.5 | Rp 125.000 |
+| 5 | Master Data > Jamaah | Read List Data Jamaah | 0.25 | Rp 62.500 |
+| 6 | Master Data > Jamaah | Read Detail Data Jamaah | 0.25 | Rp 62.500 |
+| 7 | Master Data > Jamaah | Update Data Jamaah | 0.25 | Rp 62.500 |
+| 8 | Master Data > Jamaah | Delete Data Jamaah | 0.25 | Rp 62.500 |
+| 9 | Master Data > Jamaah | Search & Filter Jamaah | 0.5 | Rp 125.000 |
+| 10 | Master Data > Jamaah | Upload Passport / Documents | 1 | Rp 250.000 |
+| 11 | Master Data > Paket Program | Create Paket Program | 0.5 | Rp 125.000 |
+| 12 | Master Data > Paket Program | Read List Paket Program | 0.25 | Rp 62.500 |
+| 13 | Master Data > Paket Program | Read Detail Paket Program | 0.25 | Rp 62.500 |
+| 14 | Master Data > Paket Program | Update Paket Program | 0.25 | Rp 62.500 |
+| 15 | Master Data > Paket Program | Delete Paket Program | 0.25 | Rp 62.500 |
+| 16 | Master Data > Paket Program | Package Quota Management | 0.5 | Rp 125.000 |
+| 17 | Master Data > Paket Program | Package Price Management | 0.5 | Rp 125.000 |
+| 18 | Master Data > Agen | Create Agen | 0.5 | Rp 125.000 |
+| 19 | Master Data > Agen | Read List Agen | 0.25 | Rp 62.500 |
+| 20 | Master Data > Agen | Read Detail Agen | 0.25 | Rp 62.500 |
+| 21 | Master Data > Agen | Update Agen | 0.25 | Rp 62.500 |
+| 22 | Master Data > Agen | Delete Agen | 0.25 | Rp 62.500 |
+| 23 | Master Data > Agen | Agent Performance View | 0.5 | Rp 125.000 |
+| 24 | Booking > Booking | Create Booking | 0.5 | Rp 125.000 |
+| 25 | Booking > Booking | Read Booking List | 0.25 | Rp 62.500 |
+| 26 | Booking > Booking | Read Booking Detail | 0.25 | Rp 62.500 |
+| 27 | Booking > Booking | Update Booking Status | 0.25 | Rp 62.500 |
+| 28 | Booking > Booking | Cancel Booking | 0.25 | Rp 62.500 |
+| 29 | Booking > Booking | Booking Validation Engine | 1 | Rp 250.000 |
+| 30 | Booking > Seat Monitoring | Seat Occupancy Calculation | 1 | Rp 250.000 |
+| 31 | Booking > Seat Monitoring | Seat Availability Monitoring | 0.5 | Rp 125.000 |
+| 32 | Booking > Seat Monitoring | Seat Alert | 0.5 | Rp 125.000 |
+| 33 | Finance > Invoice | Generate Invoice | 1 | Rp 250.000 |
+| 34 | Finance > Invoice | Preview Invoice | 0.5 | Rp 125.000 |
+| 35 | Finance > Invoice | Download PDF Invoice | 1 | Rp 250.000 |
+| 36 | Finance > Payment | Create DP Payment | 0.5 | Rp 125.000 |
+| 37 | Finance > Payment | Create Installment Payment | 0.5 | Rp 125.000 |
+| 38 | Finance > Payment | Create Full Payment | 0.5 | Rp 125.000 |
+| 39 | Finance > Payment | Upload Payment Proof | 1 | Rp 250.000 |
+| 40 | Finance > Payment | Payment History | 0.5 | Rp 125.000 |
+| 41 | Finance > Outstanding | Outstanding List | 0.5 | Rp 125.000 |
+| 42 | Finance > Outstanding | Outstanding Detail | 0.5 | Rp 125.000 |
+| 43 | Finance > Outstanding | H-35 Due Monitoring | 1 | Rp 250.000 |
+| 44 | Finance > Outstanding | Outstanding Alert | 0.5 | Rp 125.000 |
+| 45 | Operations > Manifest | Generate Excel Manifest | 1 | Rp 250.000 |
+| 46 | Operations > Manifest | Generate PDF Manifest | 1 | Rp 250.000 |
+| 47 | Operations > Manifest | Package Filter | 0.5 | Rp 125.000 |
+| 48 | Operations > Passport Documents | Download Single Passport | 0.5 | Rp 125.000 |
+| 49 | Operations > Passport Documents | Bulk Download ZIP | 1.5 | Rp 375.000 |
+| 50 | Marketing > Referral Reward | Assign Referrer | 0.5 | Rp 125.000 |
+| 51 | Marketing > Referral Reward | Referral Tracking | 1 | Rp 250.000 |
+| 52 | Marketing > Referral Reward | Referral Qualification Engine | 2 | Rp 500.000 |
+| 53 | Marketing > Referral Reward | Claim Free Seat | 1 | Rp 250.000 |
+| 54 | Settings > User Management | Create User | 0.5 | Rp 125.000 |
+| 55 | Settings > User Management | Read User List | 0.25 | Rp 62.500 |
+| 56 | Settings > User Management | Update User | 0.25 | Rp 62.500 |
+| 57 | Settings > User Management | Disable User | 0.25 | Rp 62.500 |
+| 58 | Settings > Roles & Permission | Create Role | 0.5 | Rp 125.000 |
+| 59 | Settings > Roles & Permission | Assign Permission | 1 | Rp 250.000 |
+| 60 | Settings > Roles & Permission | Update Permission | 0.5 | Rp 125.000 |
+| 61 | System | Functional Testing | 3 | Rp 750.000 |
+| 62 | System | Bug Fixing | 2 | Rp 500.000 |
+| 63 | System | Deployment | 2 | Rp 500.000 |
+|  |  | **TOTAL** | **35.5 MD** | **Rp 8.875.000** |
+
+---
+# 3. Project Timeline
+
+## Project Information
+
+| Item | Value |
+|------|------|
+| Project Start | 01 June 2026 |
+| Capacity | 4 Man Days / Week |
+| Total Effort | 35.5 Man Days |
+| Estimated Duration | 9 Weeks |
+| Estimated Finish | 03 August 2026 |
+
+---
+
+## Development Timeline
+
+| Week | Period | Scope | MD |
+|------|------|------|----:|
+| Week 1 | 01 Jun - 07 Jun 2026 | Project Setup, Authentication, Dashboard | 4 |
+| Week 2 | 08 Jun - 14 Jun 2026 | Master Data → Jamaah | 4 |
+| Week 3 | 15 Jun - 21 Jun 2026 | Master Data → Paket Program + Agen | 4 |
+| Week 4 | 22 Jun - 28 Jun 2026 | Booking + Seat Monitoring | 4 |
+| Week 5 | 29 Jun - 05 Jul 2026 | Finance → Invoice | 4 |
+| Week 6 | 06 Jul - 12 Jul 2026 | Finance → Payment | 4 |
+| Week 7 | 13 Jul - 19 Jul 2026 | Finance → Outstanding | 4 |
+| Week 8 | 20 Jul - 26 Jul 2026 | Operations + Marketing | 4 |
+| Week 9 | 27 Jul - 03 Aug 2026 | Settings + Testing + Deployment | 3.5 |
+
+---
+
+## Timeline Overview
+
+```text
+Jun 2026                                     Jul 2026                              Aug 2026
+|---------------------------------------------|--------------------------------------|
+
+W1  ████  Setup + Dashboard
+W2  ████  Jamaah
+W3  ████  Paket Program + Agen
+W4  ████  Booking + Seat Monitoring
+W5  ████  Invoice
+W6  ████  Payment
+W7  ████  Outstanding
+W8  ████  Operations + Referral
+W9  ███▌  Settings + Testing + Deployment
+```
+
+---
+
+## Delivery Milestones
+
+### Milestone 1 — Core Master Data
+**Target: Week 3**
+
+Completed modules:
+
+- Dashboard
+- Jamaah
+- Paket Program
+- Agen
+
+---
+
+### Milestone 2 — Core Transaction
+**Target: Week 7**
+
+Completed modules:
+
+- Booking
+- Seat Monitoring
+- Invoice
+- Payment
+- Outstanding
+
+---
+
+### Milestone 3 — Go Live
+**Target: Week 9**
+
+Completed modules:
+
+- Operations
+- Referral Reward
+- Settings
+- Testing
+- Production Deployment
+
+---
+
+# 4. ERD
 
 ```mermaid
 erDiagram
@@ -220,7 +334,7 @@ erDiagram
 
 ---
 
-# 4. High Level Business Sequence Diagram
+# 5. High Level Business Sequence Diagram
 
 ---
 
