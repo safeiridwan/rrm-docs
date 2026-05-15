@@ -68,206 +68,78 @@ Settings
 
 # 2. Effort Task & Mandays
 
-## Dashboard
+| No | Menu | Task | Mandays |
+|----|------|------|---------:|
+| 1 | Dashboard | Dashboard KPI Summary | 1 |
+| 2 | Dashboard | Recent Activity | 1 |
+| 3 | Dashboard | Alert Notification | 1 |
+| 4 | Master Data > Jamaah | Create Data Jamaah | 1 |
+| 5 | Master Data > Jamaah | Read List Data Jamaah | 1 |
+| 6 | Master Data > Jamaah | Read Detail Data Jamaah | 1 |
+| 7 | Master Data > Jamaah | Update Data Jamaah | 1 |
+| 8 | Master Data > Jamaah | Delete Data Jamaah | 0.5 |
+| 9 | Master Data > Jamaah | Search & Filter Jamaah | 1 |
+| 10 | Master Data > Jamaah | Upload Passport / Documents | 1.5 |
+| 11 | Master Data > Paket Program | Create Paket Program | 1 |
+| 12 | Master Data > Paket Program | Read List Paket Program | 1 |
+| 13 | Master Data > Paket Program | Read Detail Paket Program | 1 |
+| 14 | Master Data > Paket Program | Update Paket Program | 1 |
+| 15 | Master Data > Paket Program | Delete Paket Program | 0.5 |
+| 16 | Master Data > Paket Program | Package Quota Management | 1 |
+| 17 | Master Data > Paket Program | Package Price Management | 1 |
+| 18 | Master Data > Agen | Create Agen | 0.5 |
+| 19 | Master Data > Agen | Read List Agen | 0.5 |
+| 20 | Master Data > Agen | Read Detail Agen | 0.5 |
+| 21 | Master Data > Agen | Update Agen | 0.5 |
+| 22 | Master Data > Agen | Delete Agen | 0.5 |
+| 23 | Master Data > Agen | Agent Performance View | 1 |
+| 24 | Booking > Booking | Create Booking | 1.5 |
+| 25 | Booking > Booking | Read Booking List | 1 |
+| 26 | Booking > Booking | Read Booking Detail | 1 |
+| 27 | Booking > Booking | Update Booking Status | 1 |
+| 28 | Booking > Booking | Cancel Booking | 1 |
+| 29 | Booking > Booking | Booking Validation | 1 |
+| 30 | Booking > Seat Monitoring | Seat Occupancy Calculation | 1 |
+| 31 | Booking > Seat Monitoring | Seat Availability Monitoring | 1 |
+| 32 | Booking > Seat Monitoring | Seat Alert | 1 |
+| 33 | Finance > Invoice | Generate Invoice | 1 |
+| 34 | Finance > Invoice | Preview Invoice | 1 |
+| 35 | Finance > Invoice | Download PDF Invoice | 1.5 |
+| 36 | Finance > Payment | Create DP Payment | 1 |
+| 37 | Finance > Payment | Create Installment Payment | 1.5 |
+| 38 | Finance > Payment | Create Full Payment | 1 |
+| 39 | Finance > Payment | Upload Payment Proof | 1 |
+| 40 | Finance > Payment | Payment History | 1 |
+| 41 | Finance > Outstanding | Outstanding List | 1 |
+| 42 | Finance > Outstanding | Outstanding Detail | 1 |
+| 43 | Finance > Outstanding | H-35 Due Monitoring | 1.5 |
+| 44 | Finance > Outstanding | Outstanding Alert | 1 |
+| 45 | Operations > Manifest | Generate Excel Manifest | 1 |
+| 46 | Operations > Manifest | Generate PDF Manifest | 1 |
+| 47 | Operations > Manifest | Package Filter | 1 |
+| 48 | Operations > Passport Documents | Download Single Passport | 1 |
+| 49 | Operations > Passport Documents | Bulk Download ZIP | 2 |
+| 50 | Marketing > Referral Reward | Assign Referrer | 1 |
+| 51 | Marketing > Referral Reward | Referral Tracking | 1 |
+| 52 | Marketing > Referral Reward | Referral Qualification Engine | 2 |
+| 53 | Marketing > Referral Reward | Claim Free Seat | 1.5 |
+| 54 | Reports > Revenue | Revenue Summary | 1 |
+| 55 | Reports > Revenue | Revenue Per Package | 1 |
+| 56 | Reports > Revenue | Revenue Per Agent | 1 |
+| 57 | Reports > Departure Report | Departure Summary | 1 |
+| 58 | Reports > Departure Report | Departure Detail | 1 |
+| 59 | Reports > Departure Report | Export Report | 1 |
+| 60 | Settings > User Management | Create User | 1 |
+| 61 | Settings > User Management | Update User | 1 |
+| 62 | Settings > User Management | Disable User | 1 |
+| 63 | Settings > Roles & Permission | Create Role | 1 |
+| 64 | Settings > Roles & Permission | Assign Permission | 1 |
+| 65 | Settings > Roles & Permission | Update Permission | 1 |
+| 66 | System | Functional Testing | 3 |
+| 67 | System | Bug Fixing | 2 |
+| 68 | System | Deployment | 2 |
 
-| Task | MD |
-|------|----|
-| Dashboard KPI Summary | 1 |
-| Dashboard Recent Activity | 1 |
-| Dashboard Alert Notification | 1 |
-
-Subtotal: **3 MD**
-
----
-
-## Master Data → Jamaah
-
-| Task | MD |
-|------|----|
-| Create Data Jamaah | 1 |
-| Read List Data Jamaah | 1 |
-| Read Detail Data Jamaah | 1 |
-| Update Data Jamaah | 1 |
-| Delete Data Jamaah | 0.5 |
-| Search & Filter Jamaah | 1 |
-| Upload Passport / Dokumen | 1.5 |
-
-Subtotal: **7 MD**
-
----
-
-## Master Data → Paket Program
-
-| Task | MD |
-|------|----|
-| Create Paket Program | 1 |
-| Read List Paket Program | 1 |
-| Read Detail Paket Program | 1 |
-| Update Paket Program | 1 |
-| Delete Paket Program | 0.5 |
-| Package Quota Management | 1 |
-| Package Price Management | 1 |
-
-Subtotal: **6.5 MD**
-
----
-
-## Master Data → Agen
-
-| Task | MD |
-|------|----|
-| Create Agen | 0.5 |
-| Read List Agen | 0.5 |
-| Read Detail Agen | 0.5 |
-| Update Agen | 0.5 |
-| Delete Agen | 0.5 |
-| Agent Performance View | 1 |
-
-Subtotal: **3.5 MD**
-
----
-
-## Booking
-
-| Task | MD |
-|------|----|
-| Create Booking | 1.5 |
-| Read Booking List | 1 |
-| Read Booking Detail | 1 |
-| Update Booking Status | 1 |
-| Cancel Booking | 1 |
-| Booking Validation | 1 |
-
-Subtotal: **6.5 MD**
-
----
-
-## Seat Monitoring
-
-| Task | MD |
-|------|----|
-| Seat Occupancy Calculation | 1 |
-| Seat Availability Monitoring | 1 |
-| Seat Alert | 1 |
-
-Subtotal: **3 MD**
-
----
-
-## Finance → Invoice
-
-| Task | MD |
-|------|----|
-| Generate Invoice | 1 |
-| Preview Invoice | 1 |
-| Download PDF Invoice | 1.5 |
-
-Subtotal: **3.5 MD**
-
----
-
-## Finance → Payment
-
-| Task | MD |
-|------|----|
-| DP Payment | 1 |
-| Installment Payment | 1.5 |
-| Full Payment | 1 |
-| Upload Payment Proof | 1 |
-| Payment History | 1 |
-
-Subtotal: **5.5 MD**
-
----
-
-## Finance → Outstanding
-
-| Task | MD |
-|------|----|
-| Outstanding List | 1 |
-| Outstanding Detail | 1 |
-| H-35 Due Date Monitoring | 1.5 |
-| Reminder Alert | 1 |
-
-Subtotal: **4.5 MD**
-
----
-
-## Operations → Manifest
-
-| Task | MD |
-|------|----|
-| Generate Excel Manifest | 1 |
-| Generate PDF Manifest | 1 |
-| Package Manifest Filtering | 1 |
-
-Subtotal: **3 MD**
-
----
-
-## Operations → Passport Documents
-
-| Task | MD |
-|------|----|
-| Download Single Passport | 1 |
-| Bulk Download ZIP | 2 |
-
-Subtotal: **3 MD**
-
----
-
-## Marketing → Referral Reward
-
-| Task | MD |
-|------|----|
-| Assign Referrer | 1 |
-| Referral Tracking | 1 |
-| Qualification Engine | 2 |
-| Claim Free Seat | 1.5 |
-
-Subtotal: **5.5 MD**
-
----
-
-## Reports
-
-| Task | MD |
-|------|----|
-| Revenue Report | 2 |
-| Departure Report | 2 |
-| Export Excel | 1 |
-
-Subtotal: **5 MD**
-
----
-
-## Settings
-
-| Task | MD |
-|------|----|
-| User Management | 2 |
-| Roles & Permission | 2 |
-
-Subtotal: **4 MD**
-
----
-
-## Testing & Deployment
-
-| Task | MD |
-|------|----|
-| Functional Testing | 3 |
-| Bug Fixing | 2 |
-| Deployment | 2 |
-
-Subtotal: **7 MD**
-
----
-
-# TOTAL ESTIMASI
-
-**Total: ± 63 - 65 Man Days**
-
+|  |  | **TOTAL** | **± 65 MD** |
 ---
 
 # 3. ERD
