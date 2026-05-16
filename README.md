@@ -68,6 +68,7 @@ Settings
 
 | Item | Value |
 |------|------:|
+| 1 Man Day | 8 Working Hours |
 | Standard Rate | Rp 375.000 / MD |
 | Special Discount Rate | Rp 250.000 / MD |
 | Discount | Rp 125.000 / MD (33%) |
@@ -251,83 +252,238 @@ Completed modules:
 
 ---
 
-# 4. ERD
+# 4. Entity Relationship Diagram 
 
 ```mermaid
 erDiagram
 
-    AGENTS ||--o{ PILGRIMS : owns
+    AGENTS ||--o{ PILGRIMS : registers
     PILGRIMS ||--o{ BOOKINGS : books
-    PACKAGES ||--o{ BOOKINGS : contains
+    PACKAGES ||--o{ BOOKINGS : assigned_to
 
     BOOKINGS ||--|| INVOICES : billed
-    INVOICES ||--o{ PAYMENTS : receives
+    INVOICES ||--o{ PAYMENTS : paid_by
 
-    PILGRIMS ||--o{ DOCUMENTS : has
-    PILGRIMS ||--o{ REWARDS : earns
+    PILGRIMS ||--o{ DOCUMENTS : uploads
+    PILGRIMS ||--o{ REFERRALS : refers
+
+    USERS ||--o{ BOOKINGS : manages
+    USERS ||--o{ PAYMENTS : records
 
 
     AGENTS {
         bigint id PK
-        string name
+        string agent_code
+        string agent_name
         string phone
+        string email
+        string address
+        string city
+        string status
+        datetime created_at
+        datetime updated_at
     }
+
 
     PILGRIMS {
         bigint id PK
         bigint agent_id FK
+
+        string pilgrim_code
         string full_name
-        string passport_number
+        string gender
+        string place_of_birth
+        date date_of_birth
+
+        string identity_type
+        string identity_number
+
         string phone
+        string email
+        string address
+        string city
+        string province
+        string postal_code
+
+        string emergency_contact_name
+        string emergency_contact_phone
+
+        string passport_number
+        string passport_issued_city
+        date passport_issued_date
+        date passport_expired_date
+
+        string blood_type
+        string medical_notes
+
+        string marital_status
+        string occupation
+
+        string registration_source
+
+        datetime created_at
+        datetime updated_at
     }
+
 
     PACKAGES {
         bigint id PK
-        string name
+
+        string package_code
+        string package_name
+
+        string departure_city
+        string airline_name
+
         date departure_date
+        date return_date
+
+        int duration_days
+
         int quota
+        int booked_seat
+        int available_seat
+
         decimal base_price
+        decimal tax_amount
+
+        string package_type
+        string hotel_makkah
+        string hotel_madinah
+
+        string status
+
+        datetime created_at
+        datetime updated_at
     }
+
 
     BOOKINGS {
         bigint id PK
+
         bigint pilgrim_id FK
         bigint package_id FK
-        string booking_type
-        string status
+        bigint created_by FK
+
+        string booking_code
+
+        date booking_date
+
         decimal agreed_price
+        decimal discount_amount
+        decimal final_price
+
+        string booking_type
+        string payment_scheme
+
+        string status
+
+        datetime created_at
+        datetime updated_at
     }
+
 
     INVOICES {
         bigint id PK
+
         bigint booking_id FK
+
         string invoice_number
-        decimal total_amount
+
+        decimal subtotal
+        decimal discount_amount
+        decimal grand_total
+
         decimal paid_amount
         decimal outstanding_amount
+
+        date due_date
+
+        string payment_status
+
+        datetime created_at
+        datetime updated_at
     }
+
 
     PAYMENTS {
         bigint id PK
+
         bigint invoice_id FK
+        bigint created_by FK
+
+        string payment_number
+
         decimal amount
+
         string payment_type
+        string payment_method
+
+        string transfer_bank
+        string transfer_reference
+
+        string proof_url
+
         datetime paid_at
+
+        datetime created_at
+        datetime updated_at
     }
+
 
     DOCUMENTS {
         bigint id PK
+
         bigint pilgrim_id FK
-        string file_url
+
+        string document_type
+        string file_name
+        string file_path
+        string mime_type
+        bigint file_size
+
+        datetime created_at
+        datetime updated_at
     }
 
-    REWARDS {
+
+    REFERRALS {
         bigint id PK
-        bigint pilgrim_id FK
+
+        bigint referrer_pilgrim_id FK
+        bigint referred_pilgrim_id FK
+
+        string referral_code
+
+        int total_success_referral
+
+        boolean reward_qualified
+        boolean reward_claimed
+
+        datetime reward_claimed_at
+
+        datetime created_at
+        datetime updated_at
+    }
+
+
+    USERS {
+        bigint id PK
+
+        string full_name
+        string email
+        string password_hash
+
+        string role_name
+
         string status
+
+        datetime last_login_at
+
+        datetime created_at
+        datetime updated_at
     }
 ```
-
 ---
 
 # 5. High Level Business Sequence Diagram
