@@ -215,15 +215,15 @@
     <script>
         const appData = {
             jamaah: [
-                { id: 1, name: 'Budi Santoso', code: 'JM-001', address: 'Jl. Jend. Sudirman', status: 'Lunas', passport: 'Ada', outstanding: 0, gender: 'L', dob: '1985-05-12', passportNo: 'A1234567', phone: '08123456789', city: 'Jakarta' },
-                { id: 2, name: 'Siti Aminah', code: 'JM-002', address: 'Jl. Ahmad Yani', status: 'DP', passport: 'Proses', outstanding: 27500000, gender: 'P', dob: '1990-08-25', passportNo: '-', phone: '08123456788', city: 'Surabaya' },
-                { id: 3, name: 'Ahmad Zakaria', code: 'JM-003', address: 'Jl. Merdeka', status: 'Lunas', passport: 'Ada', outstanding: 0, gender: 'L', dob: '1978-02-15', passportNo: 'B9876543', phone: '08123456787', city: 'Bandung' },
-                { id: 4, name: 'Rina Rahayu', code: 'JM-004', address: 'Jl. Diponegoro', status: 'Outstanding', passport: 'Expired', outstanding: 32500000, gender: 'P', dob: '1995-11-30', passportNo: 'C5554443', phone: '08123456786', city: 'Medan' },
+                { id: 1, title: 'Tn', name: 'Budi Santoso', code: 'JM-001', package: 'Gold Umroh Nov 2026', address: 'Jl. Jend. Sudirman', status: 'Lunas', passport: 'Ada', outstanding: 0, gender: 'L', dob: '1985-05-12', birthPlace: 'Jakarta', age: 41, identityNo: '3171234567890001', passportNo: 'A1234567', phone: '08123456789', email: 'budi.santoso@email.com', city: 'Jakarta' },
+                { id: 2, title: 'Ny', name: 'Siti Aminah', code: 'JM-002', package: 'Silver Umroh Jan 2027', address: 'Jl. Ahmad Yani', status: 'DP', passport: 'Proses', outstanding: 27500000, gender: 'P', dob: '1990-08-25', birthPlace: 'Surabaya', age: 35, identityNo: '3171234567890002', passportNo: '-', phone: '08123456788', email: 'siti.aminah@email.com', city: 'Surabaya' },
+                { id: 3, title: 'Tn', name: 'Ahmad Zakaria', code: 'JM-003', package: 'Platinum Umroh Dec 2026', address: 'Jl. Merdeka', status: 'Lunas', passport: 'Ada', outstanding: 0, gender: 'L', dob: '1978-02-15', birthPlace: 'Bandung', age: 47, identityNo: '3171234567890003', passportNo: 'B9876543', phone: '08123456787', email: 'ahmad.zakaria@email.com', city: 'Bandung' },
+                { id: 4, title: 'Nn', name: 'Rina Rahayu', code: 'JM-004', package: 'Gold Umroh Jan 2027', address: 'Jl. Diponegoro', status: 'Outstanding', passport: 'Expired', outstanding: 32500000, gender: 'P', dob: '1995-11-30', birthPlace: 'Medan', age: 30, identityNo: '3171234567890004', passportNo: 'C5554443', phone: '08123456786', email: 'rina.rahayu@email.com', city: 'Medan' },
             ],
             agen: [
-                { id: 1, code: 'AG-001', name: 'Travel Berkah Mandiri', city: 'Jakarta', total: 45, commission: 12500000, rating: 4.8 },
-                { id: 2, code: 'AG-002', name: 'Haji Muda Solo', city: 'Solo', total: 28, commission: 7000000, rating: 4.5 },
-                { id: 3, code: 'AG-003', name: 'Nurul Iman Wisata', city: 'Bekasi', total: 12, commission: 3000000, rating: 4.2 }
+                { id: 1, code: 'AG-001', name: 'Budi Santoso', phone: '081234567890', email: 'berkah@travel.com', address: 'Jl. Thamrin No. 123, Jakarta Pusat', city: 'Jakarta', total: 45, commission: 12500000, rating: 4.8 },
+                { id: 2, code: 'AG-002', name: 'Haji Edwin', phone: '081345678901', email: 'hajimuda@gmail.com', address: 'Jl. Slamet Riyadi No. 45, Solo', city: 'Solo', total: 28, commission: 7000000, rating: 4.5 },
+                { id: 3, code: 'AG-003', name: 'Nurul Iman', phone: '081456789012', email: 'nuruliman@yahoo.com', address: 'Jl. Ahmad Yani No. 78, Bekasi Timur', city: 'Bekasi', total: 12, commission: 3000000, rating: 4.2 }
             ],
             packages: [
                 { id: 1, name: 'Gold Umrah Nov 2026', code: 'PKG-NOV26', quota: 45, booked: 42, color: 'bg-amber-500', departure: '2026-11-10', price: 32500000 },
@@ -619,28 +619,56 @@
             `,
 
             agen: () => `
-                <div class="mb-8">
+                <div class="flex justify-between items-center mb-8">
                     <h3 class="text-2xl font-extrabold tracking-tight">Data Agen Mitra</h3>
-                    <p class="text-sm text-slate-500">Monitoring performa dan komisi mitra agen travel</p>
+                    <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-blue-100">
+                        <i class="fas fa-plus w-4 h-4"></i> Tambah Agen
+                    </button>
                 </div>
-                <div class="grid grid-cols-1 gap-6">
-                    ${appData.agen.map(a => `
-                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center justify-between">
-                            <div class="flex items-center gap-6">
-                                <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center font-bold text-xl">${a.name[0]}</div>
-                                <div>
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">${a.code}</p>
-                                    <h4 class="font-bold text-lg">${a.name}</h4>
-                                    <p class="text-xs text-slate-400 flex items-center gap-1"><i class="fas fa-location-dot w-3 h-3"></i> ${a.city}</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-12 text-center">
-                                <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Total Jamaah</p><p class="text-lg font-bold">${a.total}</p></div>
-                                <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Total Komisi</p><p class="text-lg font-bold text-emerald-600">${formatIDR(a.commission)}</p></div>
-                                <div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400"><i class="fas fa-chevron-right w-4 h-4"></i></div></div>
-                            </div>
-                        </div>
-                    `).join('')}
+                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-50/50 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b">
+                            <tr>
+                                <th class="px-8 py-5">Kode / Nama</th>
+                                <th class="px-8 py-5">No. Telepon</th>
+                                <th class="px-8 py-5">Email</th>
+                                <th class="px-8 py-5">Alamat</th>
+                                <th class="px-8 py-5">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            ${appData.agen.map(a => `
+                                <tr class="hover:bg-slate-50/50 transition-colors group">
+                                    <td class="px-8 py-5">
+                                        <p class="text-blue-600 font-mono text-[10px] font-bold mb-1">${a.code}</p>
+                                        <p class="font-bold text-sm">${a.name}</p>
+                                    </td>
+                                    <td class="px-8 py-5">
+                                        <p class="text-sm font-medium">${a.phone}</p>
+                                    </td>
+                                    <td class="px-8 py-5">
+                                        <p class="text-sm font-medium text-slate-600">${a.email}</p>
+                                    </td>
+                                    <td class="px-8 py-5">
+                                        <p class="text-xs font-bold text-slate-600">${a.address}</p>
+                                    </td>
+                                    <td class="px-8 py-5">
+                                        <div class="flex gap-2">
+                                            <button class="flex items-center gap-1.5 px-3 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-bold transition-colors">
+                                                <i class="fas fa-eye w-3.5 h-3.5"></i> Detail
+                                            </button>
+                                            <button class="flex items-center gap-1.5 px-3 py-2 bg-slate-50 text-slate-600 hover:bg-slate-100 rounded-lg text-xs font-bold transition-colors">
+                                                <i class="fas fa-pen w-3.5 h-3.5"></i> Edit
+                                            </button>
+                                            <button class="flex items-center gap-1.5 px-3 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold transition-colors">
+                                                <i class="fas fa-trash w-3.5 h-3.5"></i> Hapus
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
                 </div>
             `,
 
@@ -867,30 +895,43 @@
                             ${appData.packages.map(p => `<option>${p.name}</option>`).join('')}
                         </select>
                     </div>
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-slate-50 text-[10px] font-bold text-slate-400 uppercase border-b">
-                            <tr>
-                                <th class="px-4 py-4">No</th>
-                                <th class="px-4 py-4">Nama Lengkap</th>
-                                <th class="px-4 py-4">JK</th>
-                                <th class="px-4 py-4">No. Passport</th>
-                                <th class="px-4 py-4">Status Bayar</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-50">
-                            ${appData.jamaah.map((j, i) => `
-                                <tr class="hover:bg-slate-50">
-                                    <td class="px-4 py-4 font-mono text-slate-400">${i+1}</td>
-                                    <td class="px-4 py-4 font-bold uppercase">${j.name}</td>
-                                    <td class="px-4 py-4 text-center font-bold">${j.gender}</td>
-                                    <td class="px-4 py-4 font-mono font-bold text-blue-600">${j.passportNo}</td>
-                                    <td class="px-4 py-4">
-                                        <span class="px-2 py-1 rounded text-[10px] font-bold uppercase ${j.status === 'Lunas' ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-400'}">${j.status}</span>
-                                    </td>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-slate-50 text-[10px] font-bold text-slate-400 uppercase border-b">
+                                <tr>
+                                    <th class="px-4 py-4 whitespace-nowrap">Nama Lengkap</th>
+                                    <th class="px-4 py-4 whitespace-nowrap">Jenis Kelamin</th>
+                                    <th class="px-4 py-4 whitespace-nowrap">Tempat, Tanggal Lahir</th>
+                                    <th class="px-4 py-4 whitespace-nowrap">Usia</th>
+                                    <th class="px-4 py-4 whitespace-nowrap">Nomor Identitas</th>
+                                    <th class="px-4 py-4 whitespace-nowrap">Nomor Passport</th>
+                                    <th class="px-4 py-4 whitespace-nowrap">Email</th>
+                                    <th class="px-4 py-4 whitespace-nowrap">No. Telepon</th>
                                 </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="divide-y divide-slate-50">
+                                ${appData.jamaah.map(j => `
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="px-4 py-4">
+                                            <span class="text-slate-500 text-xs">${j.title}</span>
+                                            <span class="font-bold ml-1">${j.name}</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <span class="px-2 py-1 rounded text-[10px] font-bold uppercase ${j.gender === 'L' ? 'bg-blue-100 text-blue-600' : 'bg-pink-100 text-pink-600'}">
+                                                ${j.gender === 'L' ? 'Laki-laki' : 'Perempuan'}
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-4 text-slate-600">${j.birthPlace}, ${j.dob}</td>
+                                        <td class="px-4 py-4 font-bold text-center">${j.age}</td>
+                                        <td class="px-4 py-4 font-mono text-slate-600">${j.identityNo}</td>
+                                        <td class="px-4 py-4 font-mono font-bold text-blue-600">${j.passportNo}</td>
+                                        <td class="px-4 py-4 text-slate-600">${j.email}</td>
+                                        <td class="px-4 py-4 font-medium">${j.phone}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             `,
 
