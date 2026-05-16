@@ -726,6 +726,264 @@
             navigate('jamaah');
         }
 
+        function renderModalPaket() {
+            return `
+                <div id="modal-paket" class="modal-overlay">
+                    <div class="modal-container">
+                        <div class="modal-header">
+                            <h3>Buat Paket Baru</h3>
+                            <button class="modal-close" onclick="closeModalPaket()"><i class="fas fa-xmark"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="form-paket" onsubmit="event.preventDefault(); savePaket();">
+                                <div class="form-section">
+                                    <div class="form-section-title">Informasi Paket</div>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label class="form-label">Nama Paket *</label>
+                                            <input type="text" name="package_name" class="form-input" placeholder="Contoh: Gold Umroh Nov 2026" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Kota Keberangkatan *</label>
+                                            <input type="text" name="departure_city" class="form-input" placeholder="Contoh: Jakarta" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Maskapai *</label>
+                                            <input type="text" name="airline_name" class="form-input" placeholder="Contoh: Garuda Indonesia" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Tipe Paket *</label>
+                                            <select name="package_type" class="form-select" required>
+                                                <option value="">Pilih Tipe</option>
+                                                <option value="Regular">Regular</option>
+                                                <option value="VIP">VIP</option>
+                                                <option value="Ekonomi">Ekonomi</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-section">
+                                    <div class="form-section-title">Jadwal & Durasi</div>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label class="form-label">Tanggal Keberangkatan *</label>
+                                            <input type="date" name="departure_date" class="form-input" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Tanggal Kembali *</label>
+                                            <input type="date" name="return_date" class="form-input" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Durasi (Hari) *</label>
+                                            <input type="number" name="duration_days" class="form-input" placeholder="9" min="1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Kuota *</label>
+                                            <input type="number" name="quota" class="form-input" placeholder="45" min="1" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-section">
+                                    <div class="form-section-title">Harga</div>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label class="form-label">Harga Dasar (IDR) *</label>
+                                            <input type="number" name="base_price" class="form-input" placeholder="25000000" min="0" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Pajak (IDR) *</label>
+                                            <input type="number" name="tax_amount" class="form-input" placeholder="2500000" min="0" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-section">
+                                    <div class="form-section-title">Hotel</div>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label class="form-label">Hotel Makkah *</label>
+                                            <input type="text" name="hotel_makkah" class="form-input" placeholder="Nama hotel di Makkah" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Hotel Madinah *</label>
+                                            <input type="text" name="hotel_madinah" class="form-input" placeholder="Nama hotel di Madinah" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-secondary" onclick="closeModalPaket()">Batal</button>
+                            <button class="btn-primary" onclick="savePaket()">Simpan Paket</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openModalPaket() {
+            const modal = document.getElementById('modal-paket');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModalPaket() {
+            const modal = document.getElementById('modal-paket');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+                document.getElementById('form-paket').reset();
+            }
+        }
+
+        function savePaket() {
+            const form = document.getElementById('form-paket');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const formData = new FormData(form);
+            const newId = appData.packages.length > 0 ? Math.max(...appData.packages.map(p => p.id)) + 1 : 1;
+            const newCode = 'PKG-' + String(newId).padStart(3, '0');
+            const colors = ['bg-amber-500', 'bg-emerald-500', 'bg-blue-500', 'bg-purple-500', 'bg-rose-500', 'bg-cyan-500'];
+            const color = colors[(newId - 1) % colors.length];
+
+            const newPackage = {
+                id: newId,
+                name: formData.get('package_name'),
+                code: newCode,
+                departure_city: formData.get('departure_city'),
+                airline_name: formData.get('airline_name'),
+                departure_date: formData.get('departure_date'),
+                return_date: formData.get('return_date'),
+                duration_days: parseInt(formData.get('duration_days')),
+                quota: parseInt(formData.get('quota')),
+                booked: 0,
+                available: parseInt(formData.get('quota')),
+                color: color,
+                departure: formData.get('departure_date'),
+                price: parseInt(formData.get('base_price')) + parseInt(formData.get('tax_amount')),
+                base_price: parseInt(formData.get('base_price')),
+                tax_amount: parseInt(formData.get('tax_amount')),
+                package_type: formData.get('package_type'),
+                hotel_makkah: formData.get('hotel_makkah'),
+                hotel_madinah: formData.get('hotel_madinah'),
+                status: 'Aktif'
+            };
+
+            appData.packages.push(newPackage);
+            closeModalPaket();
+            showToast('Paket baru berhasil dibuat!');
+            navigate('paket');
+        }
+
+        function renderModalAgen() {
+            return `
+                <div id="modal-agen" class="modal-overlay">
+                    <div class="modal-container" style="max-width: 700px;">
+                        <div class="modal-header">
+                            <h3>Tambah Agen Baru</h3>
+                            <button class="modal-close" onclick="closeModalAgen()"><i class="fas fa-xmark"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="form-agen" onsubmit="event.preventDefault(); saveAgen();">
+                                <div class="form-section">
+                                    <div class="form-section-title">Informasi Agen</div>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label class="form-label">Nama Agen *</label>
+                                            <input type="text" name="agent_name" class="form-input" placeholder="Nama agen travel" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Nomor Telepon *</label>
+                                            <input type="tel" name="phone" class="form-input" placeholder="08123456789" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Email *</label>
+                                            <input type="email" name="email" class="form-input" placeholder="email@example.com" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Kota *</label>
+                                            <input type="text" name="city" class="form-input" placeholder="Kota" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Alamat *</label>
+                                            <textarea name="address" class="form-textarea" placeholder="Alamat lengkap agen" required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Status *</label>
+                                            <select name="status" class="form-select" required>
+                                                <option value="">Pilih Status</option>
+                                                <option value="Aktif">Aktif</option>
+                                                <option value="Nonaktif">Nonaktif</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-secondary" onclick="closeModalAgen()">Batal</button>
+                            <button class="btn-primary" onclick="saveAgen()">Simpan Agen</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openModalAgen() {
+            const modal = document.getElementById('modal-agen');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModalAgen() {
+            const modal = document.getElementById('modal-agen');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+                document.getElementById('form-agen').reset();
+            }
+        }
+
+        function saveAgen() {
+            const form = document.getElementById('form-agen');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const formData = new FormData(form);
+            const newId = appData.agen.length > 0 ? Math.max(...appData.agen.map(a => a.id)) + 1 : 1;
+            const newCode = 'AG-' + String(newId).padStart(3, '0');
+
+            const newAgent = {
+                id: newId,
+                code: newCode,
+                name: formData.get('agent_name'),
+                phone: formData.get('phone'),
+                email: formData.get('email'),
+                city: formData.get('city'),
+                address: formData.get('address'),
+                status: formData.get('status'),
+                total: 0,
+                commission: 0,
+                rating: 0
+            };
+
+            appData.agen.push(newAgent);
+            closeModalAgen();
+            showToast('Agen baru berhasil ditambahkan!');
+            navigate('agen');
+        }
+
         const views = {
             dashboard: () => `
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -854,7 +1112,7 @@
             paket: () => `
                 <div class="flex justify-between items-center mb-8">
                     <h3 class="text-2xl font-extrabold tracking-tight">Paket Program</h3>
-                    <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
+                    <button onclick="openModalPaket()" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
                         <i class="fas fa-plus w-4 h-4"></i> Buat Paket Baru
                     </button>
                 </div>
@@ -891,12 +1149,13 @@
                         </div>
                     `).join('')}
                 </div>
+                ${renderModalPaket()}
             `,
 
             agen: () => `
                 <div class="flex justify-between items-center mb-8">
                     <h3 class="text-2xl font-extrabold tracking-tight">Data Agen Mitra</h3>
-                    <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-blue-100">
+                    <button onclick="openModalAgen()" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-blue-100">
                         <i class="fas fa-plus w-4 h-4"></i> Tambah Agen
                     </button>
                 </div>
@@ -945,6 +1204,7 @@
                         </tbody>
                     </table>
                 </div>
+                ${renderModalAgen()}
             `,
 
             booking: () => `
