@@ -82,6 +82,31 @@
         .seat-tooltip-row:last-child { margin-bottom: 0; }
         .seat-tooltip-label { color: #94a3b8; font-weight: 600; }
         .seat-tooltip-value { font-weight: 700; }
+        /* Modal Styles */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; display: flex; align-items: center; justify-content: center; padding: 24px; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-container { background: white; border-radius: 24px; width: 100%; max-width: 900px; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: scale(0.95); transition: transform 0.3s; }
+        .modal-overlay.active .modal-container { transform: scale(1); }
+        .modal-header { padding: 24px 32px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 20px; font-weight: 800; color: #0f172a; }
+        .modal-close { width: 36px; height: 36px; border-radius: 10px; background: #f1f5f9; border: none; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .modal-close:hover { background: #e2e8f0; color: #0f172a; }
+        .modal-body { padding: 24px 32px; overflow-y: auto; flex: 1; }
+        .modal-footer { padding: 20px 32px; border-top: 1px solid #f1f5f9; display: flex; justify-content: flex-end; gap: 12px; }
+        .form-section { margin-bottom: 28px; }
+        .form-section-title { font-size: 12px; font-weight: 800; color: #2563eb; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #eff6ff; }
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-label { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
+        .form-input, .form-select, .form-textarea { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #0f172a; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+        .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: #3b82f6; background: white; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .form-textarea { resize: vertical; min-height: 80px; }
+        .form-select { cursor: pointer; }
+        .btn-primary { background: #2563eb; color: white; padding: 10px 24px; border-radius: 10px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s; }
+        .btn-primary:hover { background: #1d4ed8; }
+        .btn-secondary { background: #f1f5f9; color: #64748b; padding: 10px 24px; border-radius: 10px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s; }
+        .btn-secondary:hover { background: #e2e8f0; color: #475569; }
     </style>
 </head>
 <body class="text-slate-800">
@@ -452,6 +477,255 @@
             return statCards + packageCards;
         }
 
+        function renderModalJamaah() {
+            return `
+                <div id="modal-jamaah" class="modal-overlay">
+                    <div class="modal-container">
+                        <div class="modal-header">
+                            <h3>Tambah Jamaah Baru</h3>
+                            <button class="modal-close" onclick="closeModalJamaah()"><i class="fas fa-xmark"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="form-jamaah" onsubmit="event.preventDefault(); saveJamaah();">
+                                <!-- Data Pribadi -->
+                                <div class="form-section">
+                                    <div class="form-section-title">1. Data Pribadi</div>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label class="form-label">Nama Lengkap *</label>
+                                            <input type="text" name="full_name" class="form-input" placeholder="Masukkan nama lengkap" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Jenis Kelamin *</label>
+                                            <select name="gender" class="form-select" required>
+                                                <option value="">Pilih Jenis Kelamin</option>
+                                                <option value="L">Laki-laki</option>
+                                                <option value="P">Perempuan</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Tempat Lahir *</label>
+                                            <input type="text" name="place_of_birth" class="form-input" placeholder="Kota kelahiran" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Tanggal Lahir *</label>
+                                            <input type="date" name="date_of_birth" class="form-input" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Identitas -->
+                                <div class="form-section">
+                                    <div class="form-section-title">2. Identitas</div>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label class="form-label">Tipe Identitas *</label>
+                                            <select name="identity_type" class="form-select" required>
+                                                <option value="">Pilih Tipe Identitas</option>
+                                                <option value="KTP">KTP</option>
+                                                <option value="SIM">SIM</option>
+                                                <option value="Passport">Passport</option>
+                                                <option value="KIA">KIA</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Nomor Identitas *</label>
+                                            <input type="text" name="identity_number" class="form-input" placeholder="Nomor identitas" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Status Pernikahan *</label>
+                                            <select name="marital_status" class="form-select" required>
+                                                <option value="">Pilih Status</option>
+                                                <option value="Belum Menikah">Belum Menikah</option>
+                                                <option value="Menikah">Menikah</option>
+                                                <option value="Cerai">Cerai</option>
+                                                <option value="Janda/Duda">Janda/Duda</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Pekerjaan *</label>
+                                            <input type="text" name="occupation" class="form-input" placeholder="Pekerjaan" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Kontak -->
+                                <div class="form-section">
+                                    <div class="form-section-title">3. Kontak</div>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label class="form-label">Nomor Telepon *</label>
+                                            <input type="tel" name="phone" class="form-input" placeholder="08123456789" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Email *</label>
+                                            <input type="email" name="email" class="form-input" placeholder="email@example.com" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Alamat *</label>
+                                            <textarea name="address" class="form-textarea" placeholder="Alamat lengkap" required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Kota *</label>
+                                            <input type="text" name="city" class="form-input" placeholder="Kota" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Provinsi *</label>
+                                            <input type="text" name="province" class="form-input" placeholder="Provinsi" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Kode Pos *</label>
+                                            <input type="text" name="postal_code" class="form-input" placeholder="Kode pos" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Passport -->
+                                <div class="form-section">
+                                    <div class="form-section-title">4. Passport</div>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label class="form-label">Nomor Passport *</label>
+                                            <input type="text" name="passport_number" class="form-input" placeholder="Nomor passport" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Kota Penerbit *</label>
+                                            <input type="text" name="passport_issued_city" class="form-input" placeholder="Kota penerbit" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Tanggal Terbit *</label>
+                                            <input type="date" name="passport_issued_date" class="form-input" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Tanggal Expired *</label>
+                                            <input type="date" name="passport_expired_date" class="form-input" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Kontak Darurat -->
+                                <div class="form-section">
+                                    <div class="form-section-title">5. Kontak Darurat</div>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label class="form-label">Nama Kontak Darurat *</label>
+                                            <input type="text" name="emergency_contact_name" class="form-input" placeholder="Nama kontak darurat" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Telepon Kontak Darurat *</label>
+                                            <input type="tel" name="emergency_contact_phone" class="form-input" placeholder="Telepon kontak darurat" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Lainnya -->
+                                <div class="form-section">
+                                    <div class="form-section-title">6. Lainnya</div>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label class="form-label">Golongan Darah *</label>
+                                            <select name="blood_type" class="form-select" required>
+                                                <option value="">Pilih Golongan Darah</option>
+                                                <option value="A">A</option>
+                                                <option value="B">B</option>
+                                                <option value="AB">AB</option>
+                                                <option value="O">O</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Catatan Medis *</label>
+                                            <input type="text" name="medical_notes" class="form-input" placeholder="Catatan medis (jika ada)" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Sumber Pendaftaran *</label>
+                                            <select name="registration_source" class="form-select" required>
+                                                <option value="">Pilih Sumber</option>
+                                                <option value="Direct">Direct</option>
+                                                <option value="Agen">Agen</option>
+                                                <option value="Referral">Referral</option>
+                                                <option value="Website">Website</option>
+                                                <option value="Social Media">Social Media</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-secondary" onclick="closeModalJamaah()">Batal</button>
+                            <button class="btn-primary" onclick="saveJamaah()">Simpan Jamaah</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openModalJamaah() {
+            const modal = document.getElementById('modal-jamaah');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModalJamaah() {
+            const modal = document.getElementById('modal-jamaah');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+                document.getElementById('form-jamaah').reset();
+            }
+        }
+
+        function saveJamaah() {
+            const form = document.getElementById('form-jamaah');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const formData = new FormData(form);
+            const newId = appData.jamaah.length > 0 ? Math.max(...appData.jamaah.map(j => j.id)) + 1 : 1;
+            const newCode = 'JM-' + String(newId).padStart(3, '0');
+
+            const newJamaah = {
+                id: newId,
+                code: newCode,
+                name: formData.get('full_name'),
+                gender: formData.get('gender'),
+                dob: formData.get('date_of_birth'),
+                birthPlace: formData.get('place_of_birth'),
+                identityType: formData.get('identity_type'),
+                identityNo: formData.get('identity_number'),
+                maritalStatus: formData.get('marital_status'),
+                occupation: formData.get('occupation'),
+                phone: formData.get('phone'),
+                email: formData.get('email'),
+                address: formData.get('address'),
+                city: formData.get('city'),
+                province: formData.get('province'),
+                postalCode: formData.get('postal_code'),
+                passportNo: formData.get('passport_number'),
+                passportIssuedCity: formData.get('passport_issued_city'),
+                passportIssuedDate: formData.get('passport_issued_date'),
+                passportExpiredDate: formData.get('passport_expired_date'),
+                emergencyContactName: formData.get('emergency_contact_name'),
+                emergencyContactPhone: formData.get('emergency_contact_phone'),
+                bloodType: formData.get('blood_type'),
+                medicalNotes: formData.get('medical_notes'),
+                registrationSource: formData.get('registration_source'),
+                package: '-',
+                status: 'Baru',
+                passport: 'Ada',
+                outstanding: 0
+            };
+
+            appData.jamaah.push(newJamaah);
+            closeModalJamaah();
+            showToast('Jamaah baru berhasil ditambahkan!');
+            navigate('jamaah');
+        }
+
         const views = {
             dashboard: () => `
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -516,7 +790,7 @@
             jamaah: () => `
                 <div class="flex justify-between items-center mb-8">
                     <h3 class="text-2xl font-extrabold tracking-tight">Master Jamaah</h3>
-                    <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-blue-100">
+                    <button onclick="openModalJamaah()" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-blue-100">
                         <i class="fas fa-plus w-4 h-4"></i> Tambah Jamaah
                     </button>
                 </div>
@@ -574,6 +848,7 @@
                         </tbody>
                     </table>
                 </div>
+                ${renderModalJamaah()}
             `,
 
             paket: () => `
