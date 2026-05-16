@@ -85,14 +85,19 @@
         /* Modal Styles */
         .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; display: flex; align-items: center; justify-content: center; padding: 24px; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-container { background: white; border-radius: 24px; width: 100%; max-width: 900px; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: scale(0.95); transition: transform 0.3s; }
+        .modal-container { background: white; border-radius: 16px; width: 95%; max-width: 900px; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: scale(0.95); transition: transform 0.3s; margin: 16px; }
+        @media (min-width: 640px) { .modal-container { border-radius: 24px; width: 100%; margin: 0; } }
         .modal-overlay.active .modal-container { transform: scale(1); }
-        .modal-header { padding: 24px 32px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
-        .modal-header h3 { font-size: 20px; font-weight: 800; color: #0f172a; }
-        .modal-close { width: 36px; height: 36px; border-radius: 10px; background: #f1f5f9; border: none; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .modal-header { padding: 16px 20px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
+        @media (min-width: 640px) { .modal-header { padding: 24px 32px; } }
+        .modal-header h3 { font-size: 16px; font-weight: 800; color: #0f172a; }
+        @media (min-width: 640px) { .modal-header h3 { font-size: 20px; } }
+        .modal-close { width: 32px; height: 32px; border-radius: 10px; background: #f1f5f9; border: none; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
         .modal-close:hover { background: #e2e8f0; color: #0f172a; }
-        .modal-body { padding: 24px 32px; overflow-y: auto; flex: 1; }
-        .modal-footer { padding: 20px 32px; border-top: 1px solid #f1f5f9; display: flex; justify-content: flex-end; gap: 12px; }
+        .modal-body { padding: 16px 20px; overflow-y: auto; flex: 1; }
+        @media (min-width: 640px) { .modal-body { padding: 24px 32px; } }
+        .modal-footer { padding: 12px 20px; border-top: 1px solid #f1f5f9; display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+        @media (min-width: 640px) { .modal-footer { padding: 20px 32px; gap: 12px; } }
         .form-section { margin-bottom: 28px; }
         .form-section-title { font-size: 12px; font-weight: 800; color: #95a88d; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #eef2ec; }
         .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
@@ -107,6 +112,17 @@
         .btn-primary:hover { background: #788a70; }
         .btn-secondary { background: #f1f5f9; color: #64748b; padding: 10px 24px; border-radius: 10px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s; }
         .btn-secondary:hover { background: #e2e8f0; color: #475569; }
+        /* Mobile Sidebar Overlay */
+        .mobile-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 25; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .mobile-overlay.active { opacity: 1; pointer-events: auto; }
+        /* Responsive Tables */
+        .responsive-table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .responsive-table-wrapper table { min-width: 640px; }
+        /* Responsive Seat Monitoring */
+        .seat-package-header { display: flex; justify-content: space-between; align-items: flex-start; padding: 24px 28px; cursor: pointer; transition: background 0.2s; user-select: none; }
+        @media (max-width: 640px) { .seat-package-header { flex-direction: column; gap: 12px; } }
+        /* Responsive Modal */
+        @media (max-width: 640px) { .modal-header { padding: 16px 20px; } .modal-body { padding: 16px 20px; } .modal-footer { padding: 12px 20px; } }
         /* Theme Color Override */
         :root { --theme-primary: #95a88d; --theme-dark: #788a70; --theme-light: #eef2ec; --theme-lighter: #f5f7f4; }
         .bg-theme-600 { background-color: #95a88d !important; }
@@ -131,7 +147,10 @@
 
     <div id="app" class="flex h-screen overflow-hidden">
         
-        <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 flex flex-col transition-all duration-300 shadow-sm z-20">
+        <!-- Mobile Overlay -->
+        <div id="mobile-overlay" class="mobile-overlay lg:hidden" onclick="toggleMobileSidebar()"></div>
+
+        <aside id="sidebar" class="w-64 lg:w-64 lg:relative fixed inset-y-0 left-0 z-30 bg-white border-r border-slate-200 flex flex-col transition-all duration-300 shadow-sm transform -translate-x-full lg:translate-x-0">
             <div class="p-6 flex items-center gap-3">
                 <div class="w-10 h-10 bg-theme-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-theme-200">
                     <i class="fas fa-plane"></i>
@@ -144,73 +163,73 @@
 
             <nav class="flex-1 overflow-y-auto p-4 space-y-1 hide-scrollbar">
                 <!-- Dashboard -->
-                <button onclick="navigate('dashboard')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all" data-view="dashboard">
+                <button onclick="navigate('dashboard'); if(window.innerWidth < 1024) toggleMobileSidebar();" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all" data-view="dashboard">
                     <i class="fas fa-gauge-high w-5 h-5"></i>
                     <span class="font-medium text-sm sidebar-text">Dashboard</span>
                 </button>
 
                 <!-- Master Data -->
                 <div class="pt-4 pb-2 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider sidebar-text">Master Data</div>
-                <button onclick="navigate('jamaah')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="jamaah">
+                <button onclick="navigate('jamaah'); if(window.innerWidth < 1024) toggleMobileSidebar();" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="jamaah">
                     <i class="fas fa-users w-5 h-5"></i>
                     <span class="font-medium text-sm sidebar-text">Jamaah</span>
                 </button>
-                <button onclick="navigate('paket')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="paket">
+                <button onclick="navigate('paket'); if(window.innerWidth < 1024) toggleMobileSidebar();" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="paket">
                     <i class="fas fa-box w-5 h-5"></i>
                     <span class="font-medium text-sm sidebar-text">Paket Program</span>
                 </button>
-                <button onclick="navigate('agen')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="agen">
+                <button onclick="navigate('agen'); if(window.innerWidth < 1024) toggleMobileSidebar();" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="agen">
                     <i class="fas fa-user-check w-5 h-5"></i>
                     <span class="font-medium text-sm sidebar-text">Agen</span>
                 </button>
 
                 <!-- Transaksi -->
                 <div class="pt-4 pb-2 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider sidebar-text">Booking</div>
-                <button onclick="navigate('booking')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="booking">
+                <button onclick="navigate('booking'); if(window.innerWidth < 1024) toggleMobileSidebar();" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="booking">
                     <i class="fas fa-calendar-plus w-5 h-5"></i>
                     <span class="font-medium text-sm sidebar-text">New Booking</span>
                 </button>
-                <button onclick="navigate('seat')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="seat">
+                <button onclick="navigate('seat'); if(window.innerWidth < 1024) toggleMobileSidebar();" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="seat">
                     <i class="fas fa-desktop w-5 h-5"></i>
                     <span class="font-medium text-sm sidebar-text">Seat Monitoring</span>
                 </button>
 
                 <!-- Finance -->
                 <div class="pt-4 pb-2 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider sidebar-text">Finance</div>
-                <button onclick="navigate('invoice')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="invoice">
+                <button onclick="navigate('invoice'); if(window.innerWidth < 1024) toggleMobileSidebar();" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="invoice">
                     <i class="fas fa-file-lines w-5 h-5"></i>
                     <span class="font-medium text-sm sidebar-text">Invoice</span>
                 </button>
-                <button onclick="navigate('payment')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="payment">
+                <button onclick="navigate('payment'); if(window.innerWidth < 1024) toggleMobileSidebar();" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="payment">
                     <i class="fas fa-credit-card w-5 h-5"></i>
                     <span class="font-medium text-sm sidebar-text">Payment Hist.</span>
                 </button>
-                <button onclick="navigate('outstanding')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="outstanding">
+                <button onclick="navigate('outstanding'); if(window.innerWidth < 1024) toggleMobileSidebar();" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="outstanding">
                     <i class="fas fa-circle-exclamation w-5 h-5"></i>
                     <span class="font-medium text-sm sidebar-text">Outstanding</span>
                 </button>
 
                 <!-- Operations -->
                 <div class="pt-4 pb-2 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider sidebar-text">Operations</div>
-                <button onclick="navigate('manifest')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="manifest">
+                <button onclick="navigate('manifest'); if(window.innerWidth < 1024) toggleMobileSidebar();" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="manifest">
                     <i class="fas fa-file-excel w-5 h-5"></i>
                     <span class="font-medium text-sm sidebar-text">Manifest</span>
                 </button>
-                <button onclick="navigate('passport')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="passport">
+                <button onclick="navigate('passport'); if(window.innerWidth < 1024) toggleMobileSidebar();" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="passport">
                     <i class="fas fa-scroll w-5 h-5"></i>
                     <span class="font-medium text-sm sidebar-text">Passport Docs</span>
                 </button>
 
                 <!-- Marketing -->
                 <div class="pt-4 pb-2 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider sidebar-text">Marketing</div>
-                <button onclick="navigate('marketing')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="marketing">
+                <button onclick="navigate('marketing'); if(window.innerWidth < 1024) toggleMobileSidebar();" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="marketing">
                     <i class="fas fa-gift w-5 h-5"></i>
                     <span class="font-medium text-sm sidebar-text">Referral Reward</span>
                 </button>
 
                 <!-- System -->
                 <div class="pt-8 pb-2 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider sidebar-text">Sistem</div>
-                <button onclick="navigate('settings')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="settings">
+                <button onclick="navigate('settings'); if(window.innerWidth < 1024) toggleMobileSidebar();" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="settings">
                     <i class="fas fa-gear w-5 h-5"></i>
                     <span class="font-medium text-sm sidebar-text">Settings</span>
                 </button>
@@ -219,36 +238,39 @@
 
         <!-- MAIN CONTENT AREA -->
         <main class="flex-1 flex flex-col overflow-hidden bg-slate-50/50">
-            <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-10">
-                <div class="flex items-center gap-4">
-                    <button id="toggle-sidebar" class="text-slate-400 hover:text-slate-600 transition-transform active:scale-90 lg:block">
+            <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 lg:px-8 z-10">
+                <div class="flex items-center gap-3">
+                    <button id="mobile-toggle" class="text-slate-400 hover:text-slate-600 transition-transform active:scale-90 lg:hidden">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                    <button id="toggle-sidebar" class="hidden lg:block text-slate-400 hover:text-slate-600 transition-transform active:scale-90">
                         <i class="fas fa-bars"></i>
                     </button>
-                    <h2 id="view-title" class="font-semibold text-lg text-slate-800 tracking-tight">Dashboard</h2>
+                    <h2 id="view-title" class="font-semibold text-base lg:text-lg text-slate-800 tracking-tight">Dashboard</h2>
                 </div>
-                <div class="flex items-center gap-6">
-                    <div class="relative hidden lg:block">
+                <div class="flex items-center gap-3 lg:gap-6">
+                    <div class="relative hidden sm:block">
                         <i class="fas fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                        <input type="text" placeholder="Cari data..." class="pl-10 pr-4 py-2 bg-slate-100/50 border border-transparent rounded-xl text-sm w-64 focus:outline-none focus:ring-2 focus:ring-theme-500:20 focus:bg-white transition-all">
+                        <input type="text" placeholder="Cari data..." class="pl-10 pr-4 py-2 bg-slate-100/50 border border-transparent rounded-xl text-sm w-40 lg:w-64 focus:outline-none focus:ring-2 focus:ring-theme-500:20 focus:bg-white transition-all">
                     </div>
-                    <div class="flex items-center gap-3 pl-6 border-l border-slate-100">
+                    <div class="flex items-center gap-2 lg:gap-3 pl-3 lg:pl-6 border-l border-slate-100">
                         <div class="text-right hidden sm:block">
                             <p class="text-xs font-bold">Ahmad Fauzi</p>
                             <p class="text-[10px] text-slate-400 uppercase font-bold">Super Admin</p>
                         </div>
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-theme-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-md">AF</div>
+                        <div class="w-9 h-9 lg:w-10 lg:h-10 rounded-xl bg-gradient-to-br from-theme-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-md text-xs lg:text-sm">AF</div>
                     </div>
                 </div>
             </header>
 
-            <div id="content" class="flex-1 overflow-y-auto p-8 animate-fade-in hide-scrollbar">
+            <div id="content" class="flex-1 overflow-y-auto p-4 lg:p-8 animate-fade-in hide-scrollbar">
                 <!-- Content injected by JS -->
             </div>
         </main>
     </div>
 
     <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed bottom-8 right-8 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl transform translate-y-32 transition-all duration-300 flex items-center gap-4 z-50">
+    <div id="toast" class="fixed bottom-4 left-4 right-4 sm:bottom-8 sm:right-8 sm:left-auto bg-slate-900 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-2xl shadow-2xl transform translate-y-32 transition-all duration-300 flex items-center gap-3 sm:gap-4 z-50 max-w-md mx-auto sm:mx-0">
         <div class="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center">
             <i class="fas fa-check text-green-400 w-4 h-4"></i>
         </div>
@@ -1004,59 +1026,59 @@
 
         const views = {
             dashboard: () => `
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 bg-theme-100 text-theme-600 rounded-2xl flex items-center justify-center"><i class="fas fa-users"></i></div>
-                        <div><p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Total Jamaah</p><h3 class="text-xl font-extrabold tracking-tight">1,284</h3></div>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6 lg:mb-8">
+                    <div class="bg-white p-4 lg:p-6 rounded-2xl lg:rounded-3xl shadow-sm border border-slate-100 flex items-center gap-3 lg:gap-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 bg-theme-100 text-theme-600 rounded-2xl flex items-center justify-center"><i class="fas fa-users"></i></div>
+                        <div><p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Total Jamaah</p><h3 class="text-lg lg:text-xl font-extrabold tracking-tight">1,284</h3></div>
                     </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center"><i class="fas fa-wallet"></i></div>
-                        <div><p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Total Revenue</p><h3 class="text-xl font-extrabold tracking-tight">${formatIDR(2450000000)}</h3></div>
+                    <div class="bg-white p-4 lg:p-6 rounded-2xl lg:rounded-3xl shadow-sm border border-slate-100 flex items-center gap-3 lg:gap-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center"><i class="fas fa-wallet"></i></div>
+                        <div><p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Total Revenue</p><h3 class="text-sm lg:text-xl font-extrabold tracking-tight">${formatIDR(2450000000)}</h3></div>
                     </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center"><i class="fas fa-chart-pie"></i></div>
-                        <div><p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Seat Occupancy</p><h3 class="text-xl font-extrabold tracking-tight">85%</h3></div>
+                    <div class="bg-white p-4 lg:p-6 rounded-2xl lg:rounded-3xl shadow-sm border border-slate-100 flex items-center gap-3 lg:gap-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center"><i class="fas fa-chart-pie"></i></div>
+                        <div><p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Seat Occupancy</p><h3 class="text-lg lg:text-xl font-extrabold tracking-tight">85%</h3></div>
                     </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center"><i class="fas fa-circle-exclamation"></i></div>
-                        <div><p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Outstanding</p><h3 class="text-xl font-extrabold tracking-tight text-red-500">${formatIDR(120000000)}</h3></div>
+                    <div class="bg-white p-4 lg:p-6 rounded-2xl lg:rounded-3xl shadow-sm border border-slate-100 flex items-center gap-3 lg:gap-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center"><i class="fas fa-circle-exclamation"></i></div>
+                        <div><p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Outstanding</p><h3 class="text-sm lg:text-xl font-extrabold tracking-tight text-red-500">${formatIDR(120000000)}</h3></div>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
-                        <div class="flex justify-between items-center mb-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+                    <div class="bg-white p-6 lg:p-8 rounded-2xl lg:rounded-3xl border border-slate-100 shadow-sm">
+                        <div class="flex justify-between items-center mb-4 lg:mb-6">
                             <h4 class="font-bold text-slate-800">Aktivitas Terkini</h4>
                             <button class="text-theme-600 text-xs font-bold uppercase">Lihat Semua</button>
                         </div>
-                        <div class="space-y-6">
+                        <div class="space-y-4 lg:space-y-6">
                             ${appData.payments.map(p => `
-                                <div class="flex items-start gap-4">
+                                <div class="flex items-start gap-3 lg:gap-4">
                                     <div class="w-2 h-2 bg-theme-500 rounded-full mt-2"></div>
                                     <div class="flex-1">
-                                        <p class="text-sm"><span class="font-bold">${p.name}</span> melakukan pembayaran <span class="text-emerald-600 font-bold">${formatIDR(p.amount)}</span></p>
+                                        <p class="text-xs lg:text-sm"><span class="font-bold">${p.name}</span> melakukan pembayaran <span class="text-emerald-600 font-bold">${formatIDR(p.amount)}</span></p>
                                         <p class="text-[10px] text-slate-400 mt-1">${p.date} • via ${p.method}</p>
                                     </div>
                                 </div>
                             `).join('')}
                         </div>
                     </div>
-                    <div class="bg-theme-600 p-8 rounded-3xl text-white shadow-xl shadow-theme-200">
+                    <div class="bg-theme-600 p-6 lg:p-8 rounded-2xl lg:rounded-3xl text-white shadow-xl shadow-theme-200">
                         <h4 class="font-bold mb-4">Target Penjualan 2026</h4>
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-sm opacity-80">Progress Tahunan</span>
                             <span class="font-bold">72%</span>
                         </div>
-                        <div class="w-full h-3 bg-white/20 rounded-full overflow-hidden mb-8">
+                        <div class="w-full h-3 bg-white/20 rounded-full overflow-hidden mb-6 lg:mb-8">
                             <div class="h-full bg-white progress-bar" style="width: 72%"></div>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
-                            <div class="p-4 bg-white/10 rounded-2xl border border-white/10">
+                            <div class="p-3 lg:p-4 bg-white/10 rounded-2xl border border-white/10">
                                 <p class="text-[10px] uppercase font-bold opacity-60 mb-1">Jamaah Terdaftar</p>
-                                <p class="text-2xl font-bold">842 <span class="text-xs font-normal opacity-60">Jamaah</span></p>
+                                <p class="text-xl lg:text-2xl font-bold">842 <span class="text-xs font-normal opacity-60">Jamaah</span></p>
                             </div>
-                            <div class="p-4 bg-white/10 rounded-2xl border border-white/10">
+                            <div class="p-3 lg:p-4 bg-white/10 rounded-2xl border border-white/10">
                                 <p class="text-[10px] uppercase font-bold opacity-60 mb-1">Sisa Kuota</p>
-                                <p class="text-2xl font-bold">158 <span class="text-xs font-normal opacity-60">Seat</span></p>
+                                <p class="text-xl lg:text-2xl font-bold">158 <span class="text-xs font-normal opacity-60">Seat</span></p>
                             </div>
                         </div>
                     </div>
@@ -1064,58 +1086,59 @@
             `,
 
             jamaah: () => `
-                <div class="flex justify-between items-center mb-8">
-                    <h3 class="text-2xl font-extrabold tracking-tight">Master Jamaah</h3>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 lg:mb-8 gap-4">
+                    <h3 class="text-xl lg:text-2xl font-extrabold tracking-tight">Master Jamaah</h3>
                     <button onclick="openModalJamaah()" class="bg-theme-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-theme-100">
                         <i class="fas fa-plus w-4 h-4"></i> Tambah Jamaah
                     </button>
                 </div>
                 <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="responsive-table-wrapper">
                     <table class="w-full text-left">
                         <thead class="bg-slate-50/50 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b">
                             <tr>
-                                <th class="px-8 py-5">Kode / Nama</th>
-                                <th class="px-8 py-5">Jenis Kelamin</th>
-                                <th class="px-8 py-5">Kontak & Kota</th>
-                                <th class="px-8 py-5">Alamat</th>
-                                <th class="px-8 py-5">Passport</th>
-                                <th class="px-8 py-5">Aksi</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Kode / Nama</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Jenis Kelamin</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Kontak & Kota</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Alamat</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Passport</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-50">
                             ${appData.jamaah.map(j => `
                                 <tr class="hover:bg-slate-50/50 transition-colors group">
-                                    <td class="px-8 py-5">
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5">
                                         <p class="text-theme-600 font-mono text-[10px] font-bold mb-1">${j.code}</p>
                                         <p class="font-bold text-sm">${j.name}</p>
                                     </td>
-                                    <td class="px-8 py-5">
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5">
                                         <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase ${j.gender === 'L' ? 'bg-theme-100 text-theme-600' : 'bg-pink-100 text-pink-600'}">
                                             ${j.gender === 'L' ? 'Laki-laki' : 'Perempuan'}
                                         </span>
                                     </td>
-                                    <td class="px-8 py-5">
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5">
                                         <p class="text-sm font-medium">${j.phone}</p>
                                         <p class="text-[10px] text-slate-400 uppercase font-bold">${j.city}</p>
                                     </td>
-                                    <td class="px-8 py-5">
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5">
                                         <p class="text-xs font-bold text-slate-600">${j.address}</p>
                                     </td>
-                                    <td class="px-8 py-5">
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5">
                                         <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase ${j.passport === 'Ada' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}">
                                             ${j.passport}
                                         </span>
                                     </td>
-                                    <td class="px-8 py-5">
-                                        <div class="flex gap-2">
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5">
+                                        <div class="flex flex-wrap gap-2">
                                             <button class="flex items-center gap-1.5 px-3 py-2 bg-theme-50 text-theme-600 hover:bg-theme-100 rounded-lg text-xs font-bold transition-colors">
-                                                <i class="fas fa-eye w-3.5 h-3.5"></i> Detail
+                                                <i class="fas fa-eye w-3.5 h-3.5"></i> <span class="hidden sm:inline">Detail</span>
                                             </button>
                                             <button class="flex items-center gap-1.5 px-3 py-2 bg-slate-50 text-slate-600 hover:bg-slate-100 rounded-lg text-xs font-bold transition-colors">
-                                                <i class="fas fa-pen w-3.5 h-3.5"></i> Edit
+                                                <i class="fas fa-pen w-3.5 h-3.5"></i> <span class="hidden sm:inline">Edit</span>
                                             </button>
                                             <button class="flex items-center gap-1.5 px-3 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold transition-colors">
-                                                <i class="fas fa-trash w-3.5 h-3.5"></i> Hapus
+                                                <i class="fas fa-trash w-3.5 h-3.5"></i> <span class="hidden sm:inline">Hapus</span>
                                             </button>
                                         </div>
                                     </td>
@@ -1123,22 +1146,23 @@
                             `).join('')}
                         </tbody>
                     </table>
+                    </div>
                 </div>
                 ${renderModalJamaah()}
             `,
-
+            
             paket: () => `
-                <div class="flex justify-between items-center mb-8">
-                    <h3 class="text-2xl font-extrabold tracking-tight">Paket Program</h3>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 lg:mb-8 gap-4">
+                    <h3 class="text-xl lg:text-2xl font-extrabold tracking-tight">Paket Program</h3>
                     <button onclick="openModalPaket()" class="bg-theme-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
                         <i class="fas fa-plus w-4 h-4"></i> Buat Paket Baru
                     </button>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                     ${appData.packages.map(p => `
                         <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                             <div class="h-2 w-full ${p.color}"></div>
-                            <div class="p-8 flex-1">
+                            <div class="p-6 lg:p-8 flex-1">
                                 <div class="flex justify-between items-start mb-4">
                                     <h4 class="font-bold text-lg">${p.name}</h4>
                                     <span class="text-[10px] font-mono bg-slate-100 px-2 py-1 rounded">${p.code}</span>
@@ -1171,49 +1195,50 @@
             `,
 
             agen: () => `
-                <div class="flex justify-between items-center mb-8">
-                    <h3 class="text-2xl font-extrabold tracking-tight">Data Agen Mitra</h3>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 lg:mb-8 gap-4">
+                    <h3 class="text-xl lg:text-2xl font-extrabold tracking-tight">Data Agen Mitra</h3>
                     <button onclick="openModalAgen()" class="bg-theme-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-theme-100">
                         <i class="fas fa-plus w-4 h-4"></i> Tambah Agen
                     </button>
                 </div>
                 <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="responsive-table-wrapper">
                     <table class="w-full text-left">
                         <thead class="bg-slate-50/50 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b">
                             <tr>
-                                <th class="px-8 py-5">Kode / Nama</th>
-                                <th class="px-8 py-5">No. Telepon</th>
-                                <th class="px-8 py-5">Email</th>
-                                <th class="px-8 py-5">Alamat</th>
-                                <th class="px-8 py-5">Aksi</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Kode / Nama</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">No. Telepon</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Email</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Alamat</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-50">
                             ${appData.agen.map(a => `
                                 <tr class="hover:bg-slate-50/50 transition-colors group">
-                                    <td class="px-8 py-5">
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5">
                                         <p class="text-theme-600 font-mono text-[10px] font-bold mb-1">${a.code}</p>
                                         <p class="font-bold text-sm">${a.name}</p>
                                     </td>
-                                    <td class="px-8 py-5">
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5">
                                         <p class="text-sm font-medium">${a.phone}</p>
                                     </td>
-                                    <td class="px-8 py-5">
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5">
                                         <p class="text-sm font-medium text-slate-600">${a.email}</p>
                                     </td>
-                                    <td class="px-8 py-5">
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5">
                                         <p class="text-xs font-bold text-slate-600">${a.address}</p>
                                     </td>
-                                    <td class="px-8 py-5">
-                                        <div class="flex gap-2">
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5">
+                                        <div class="flex flex-wrap gap-2">
                                             <button class="flex items-center gap-1.5 px-3 py-2 bg-theme-50 text-theme-600 hover:bg-theme-100 rounded-lg text-xs font-bold transition-colors">
-                                                <i class="fas fa-eye w-3.5 h-3.5"></i> Detail
+                                                <i class="fas fa-eye w-3.5 h-3.5"></i> <span class="hidden sm:inline">Detail</span>
                                             </button>
                                             <button class="flex items-center gap-1.5 px-3 py-2 bg-slate-50 text-slate-600 hover:bg-slate-100 rounded-lg text-xs font-bold transition-colors">
-                                                <i class="fas fa-pen w-3.5 h-3.5"></i> Edit
+                                                <i class="fas fa-pen w-3.5 h-3.5"></i> <span class="hidden sm:inline">Edit</span>
                                             </button>
                                             <button class="flex items-center gap-1.5 px-3 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold transition-colors">
-                                                <i class="fas fa-trash w-3.5 h-3.5"></i> Hapus
+                                                <i class="fas fa-trash w-3.5 h-3.5"></i> <span class="hidden sm:inline">Hapus</span>
                                             </button>
                                         </div>
                                     </td>
@@ -1221,100 +1246,132 @@
                             `).join('')}
                         </tbody>
                     </table>
+                    </div>
                 </div>
                 ${renderModalAgen()}
             `,
 
             booking: () => `
-                <div class="max-w-4xl mx-auto">
-                    <div class="mb-8 flex justify-between items-end">
-                        <div>
-                            <h3 class="text-2xl font-extrabold tracking-tight">New Booking</h3>
-                            <p class="text-sm text-slate-500">Input pendaftaran jamaah ke dalam sistem</p>
-                        </div>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 lg:mb-8 gap-4">
+                    <div>
+                        <h3 class="text-xl lg:text-2xl font-extrabold tracking-tight">New Booking</h3>
+                        <p class="text-sm text-slate-500">Pendaftaran jamaah baru ke paket keberangkatan</p>
                     </div>
-                    <div class="bg-white rounded-3xl p-10 border border-slate-100 shadow-sm space-y-8">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div class="space-y-4">
-                                <h4 class="text-xs font-bold text-theme-600 uppercase tracking-widest border-b pb-2">1. Pilih Jamaah</h4>
-                                <div>
-                                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Cari Nama Jamaah</label>
-                                    <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-theme-500">
-                                        <option>Pilih Jamaah dari Master Data...</option>
-                                        ${appData.jamaah.map(j => `<option>${j.name} (${j.code})</option>`).join('')}
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Referral / Agen</label>
-                                    <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-theme-500">
-                                        <option>Direct (Tanpa Agen)</option>
-                                        ${appData.agen.map(a => `<option>${a.name}</option>`).join('')}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="space-y-4">
-                                <h4 class="text-xs font-bold text-theme-600 uppercase tracking-widest border-b pb-2">2. Pilih Program</h4>
-                                <div>
-                                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Paket Umrah</label>
-                                    <select id="pkg-select" class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-theme-500">
-                                        ${appData.packages.map(p => `<option value="${p.price}">${p.name} - ${formatIDR(p.price)}</option>`).join('')}
-                                    </select>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tipe Kamar</label>
-                                        <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-theme-500">
-                                            <option>Quad</option>
-                                            <option>Triple (+2.5jt)</option>
-                                            <option>Double (+5jt)</option>
+                </div>
+                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="p-6 lg:p-8">
+                        <form id="form-booking" onsubmit="event.preventDefault(); saveBooking();">
+                            <div class="form-section">
+                                <div class="form-section-title">1. Pilih Jamaah</div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Jamaah *</label>
+                                        <select name="jamaah_id" class="form-select" required onchange="fillJamaahData(this.value)">
+                                            <option value="">Pilih Jamaah</option>
+                                            ${appData.jamaah.map(j => `<option value="${j.id}">${j.name} (${j.code})</option>`).join('')}
                                         </select>
                                     </div>
-                                    <div>
-                                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Skema Bayar</label>
-                                        <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-theme-500">
-                                            <option>DP Awal</option>
-                                            <option>Cash Full</option>
+                                    <div class="form-group">
+                                        <label class="form-label">Agen / Referral</label>
+                                        <select name="agent_id" class="form-select">
+                                            <option value="">Direct Booking</option>
+                                            ${appData.agen.map(a => `<option value="${a.id}">${a.name} (${a.code})</option>`).join('')}
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="p-8 bg-slate-900 rounded-2xl text-white flex justify-between items-center">
-                            <div>
-                                <p class="text-[10px] font-bold opacity-60 uppercase tracking-wider">Total Estimasi Tagihan</p>
-                                <p id="total-estimasi" class="text-3xl font-extrabold tracking-tight">${formatIDR(32500000)}</p>
+                            <div class="form-section">
+                                <div class="form-section-title">2. Pilih Paket</div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Paket Program *</label>
+                                        <select name="package_id" class="form-select" required onchange="fillPackageData(this.value)">
+                                            <option value="">Pilih Paket</option>
+                                            ${appData.packages.map(p => `<option value="${p.id}">${p.name} (${p.code}) - ${formatIDR(p.price)}</option>`).join('')}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Tanggal Booking *</label>
+                                        <input type="date" name="booking_date" class="form-input" required>
+                                    </div>
+                                </div>
                             </div>
-                            <button onclick="showToast('Booking berhasil dibuat!')" class="bg-theme-600 hover:bg-theme-700 px-8 py-4 rounded-xl font-bold transition-all flex items-center gap-2">
-                                <i class="fas fa-circle-check w-5 h-5"></i> Konfirmasi Booking
-                            </button>
-                        </div>
+                            <div class="form-section">
+                                <div class="form-section-title">3. Detail Pembayaran</div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Tipe Pembayaran *</label>
+                                        <select name="payment_type" class="form-select" required>
+                                            <option value="">Pilih Tipe</option>
+                                            <option value="Lunas">Pelunasan Penuh</option>
+                                            <option value="DP">Down Payment (DP)</option>
+                                            <option value="Cicilan">Cicilan</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Nominal Dibayar *</label>
+                                        <input type="number" name="amount_paid" class="form-input" placeholder="0" min="0" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Metode Pembayaran *</label>
+                                        <select name="payment_method" class="form-select" required>
+                                            <option value="">Pilih Metode</option>
+                                            <option value="Transfer">Bank Transfer</option>
+                                            <option value="Cash">Cash / Tunai</option>
+                                            <option value="EDC">EDC / Kartu</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Kode Referensi</label>
+                                        <input type="text" name="reference_code" class="form-input" placeholder="Nomor transaksi / bukti transfer">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-section">
+                                <div class="form-section-title">4. Ringkasan Booking</div>
+                                <div class="bg-slate-50 p-4 lg:p-6 rounded-2xl border border-slate-100">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                        <div>
+                                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Harga Paket</p>
+                                            <p id="booking-summary-price" class="text-lg font-black text-slate-900">-</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Dibayar</p>
+                                            <p id="booking-summary-paid" class="text-lg font-black text-emerald-600">-</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Sisa / Outstanding</p>
+                                            <p id="booking-summary-outstanding" class="text-lg font-black text-red-600">-</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Status</p>
+                                            <span id="booking-summary-status" class="px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-slate-200 text-slate-600">Menunggu</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="p-6 lg:p-8 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-3">
+                        <button type="button" class="btn-secondary w-full sm:w-auto" onclick="document.getElementById('form-booking').reset(); updateBookingSummary();">Reset</button>
+                        <button type="button" class="btn-primary w-full sm:w-auto" onclick="saveBooking()">Simpan Booking</button>
                     </div>
                 </div>
             `,
 
             seat: () => `
-                <div class="mb-8">
-                    <h3 class="text-2xl font-extrabold tracking-tight">Seat Occupancy Monitoring</h3>
-                    <p class="text-sm text-slate-500">Monitoring ketersediaan slot jamaah per paket program</p>
-                </div>
-                <div class="seat-filter-bar">
-                    <select id="seat-pkg-filter" onchange="setSeatPackageFilter(this.value)">
-                        <option value="all">Semua Paket</option>
-                        ${appData.packages.map(p => `<option value="${p.name}">${p.name}</option>`).join('')}
-                    </select>
-                    <div class="seat-status-tabs">
-                        <button type="button" class="active" data-status="all" onclick="setSeatStatusFilter('all')">Semua</button>
-                        <button type="button" data-status="booked" onclick="setSeatStatusFilter('booked')">Terisi</button>
-                        <button type="button" data-status="available" onclick="setSeatStatusFilter('available')">Tersedia</button>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 lg:mb-8 gap-4">
+                    <div>
+                        <h3 class="text-xl lg:text-2xl font-extrabold tracking-tight">Seat Monitoring</h3>
+                        <p class="text-sm text-slate-500">Monitoring okupansi kursi per paket keberangkatan</p>
                     </div>
-                    <input type="text" placeholder="Cari nama jamaah..." oninput="onSeatSearch(this)" />
                 </div>
                 <div id="seat-container">${renderSeatContent()}</div>
             `,
 
             invoice: () => `
-                <div class="flex justify-between items-center mb-8">
-                    <h3 class="text-2xl font-extrabold tracking-tight">Financial Invoices</h3>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 lg:mb-8 gap-4">
+                    <h3 class="text-xl lg:text-2xl font-extrabold tracking-tight">Financial Invoices</h3>
                     <div class="flex gap-2">
                          <button class="bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
                              <i class="fas fa-filter w-4 h-4"></i> Filter
@@ -1325,72 +1382,76 @@
                     </div>
                 </div>
                 <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="responsive-table-wrapper">
                     <table class="w-full text-left">
                         <thead class="bg-slate-50/50 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b">
                             <tr>
-                                <th class="px-8 py-5">Invoice #</th>
-                                <th class="px-8 py-5">Jamaah</th>
-                                <th class="px-8 py-5">Tagihan</th>
-                                <th class="px-8 py-5">Sisa</th>
-                                <th class="px-8 py-5">Status</th>
-                                <th class="px-8 py-5">Action</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Invoice #</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Jamaah</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Tagihan</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Sisa</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Status</th>
+                                <th class="px-4 lg:px-8 py-4 lg:py-5">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-50">
                             ${appData.jamaah.map(j => `
                                 <tr>
-                                    <td class="px-8 py-5 font-mono text-sm text-theme-600 font-bold">INV/2026/${j.code}</td>
-                                    <td class="px-8 py-5 font-bold text-sm">${j.name}</td>
-                                    <td class="px-8 py-5 font-bold text-sm">${formatIDR(j.outstanding > 0 ? j.outstanding + 5000000 : 32500000)}</td>
-                                    <td class="px-8 py-5 font-bold text-red-500 text-sm">${formatIDR(j.outstanding)}</td>
-                                    <td class="px-8 py-5">
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5 font-mono text-sm text-theme-600 font-bold">INV/2026/${j.code}</td>
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5 font-bold text-sm">${j.name}</td>
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5 font-bold text-sm">${formatIDR(j.outstanding > 0 ? j.outstanding + 5000000 : 32500000)}</td>
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5 font-bold text-red-500 text-sm">${formatIDR(j.outstanding)}</td>
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5">
                                         <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase ${j.status === 'Lunas' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}">
                                             ${j.status}
                                         </span>
                                     </td>
-                                    <td class="px-8 py-5">
+                                    <td class="px-4 lg:px-8 py-4 lg:py-5">
                                         <button class="text-slate-400 hover:text-theme-600"><i class="fas fa-file-arrow-down w-5 h-5"></i></button>
                                     </td>
                                 </tr>
                             `).join('')}
                         </tbody>
                     </table>
+                    </div>
                 </div>
             `,
 
             payment: () => `
-                <div class="flex justify-between items-center mb-8">
-                    <h3 class="text-2xl font-extrabold tracking-tight">Payment Ledger</h3>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 lg:mb-8 gap-4">
+                    <h3 class="text-xl lg:text-2xl font-extrabold tracking-tight">Payment Ledger</h3>
                     <button class="bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-emerald-100">
                         <i class="fas fa-circle-plus w-4 h-4"></i> Input Pembayaran
                     </button>
                 </div>
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                     <div class="lg:col-span-2 bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                        <div class="responsive-table-wrapper">
                         <table class="w-full text-left text-sm">
                             <thead class="bg-slate-50/50 text-[10px] font-bold text-slate-400 uppercase border-b">
                                 <tr>
-                                    <th class="px-6 py-4">Tanggal</th>
-                                    <th class="px-6 py-4">Jamaah</th>
-                                    <th class="px-6 py-4">Nominal</th>
-                                    <th class="px-6 py-4">Metode</th>
+                                    <th class="px-4 lg:px-6 py-3 lg:py-4">Tanggal</th>
+                                    <th class="px-4 lg:px-6 py-3 lg:py-4">Jamaah</th>
+                                    <th class="px-4 lg:px-6 py-3 lg:py-4">Nominal</th>
+                                    <th class="px-4 lg:px-6 py-3 lg:py-4">Metode</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-50">
                                 ${appData.payments.map(p => `
                                     <tr>
-                                        <td class="px-6 py-4 text-slate-400">${p.date}</td>
-                                        <td class="px-6 py-4 font-bold">${p.name}</td>
-                                        <td class="px-6 py-4 font-bold text-emerald-600">${formatIDR(p.amount)}</td>
-                                        <td class="px-6 py-4"><span class="bg-slate-100 text-[10px] font-bold px-2 py-1 rounded uppercase">${p.method}</span></td>
+                                        <td class="px-4 lg:px-6 py-3 lg:py-4 text-slate-400">${p.date}</td>
+                                        <td class="px-4 lg:px-6 py-3 lg:py-4 font-bold">${p.name}</td>
+                                        <td class="px-4 lg:px-6 py-3 lg:py-4 font-bold text-emerald-600">${formatIDR(p.amount)}</td>
+                                        <td class="px-4 lg:px-6 py-3 lg:py-4"><span class="bg-slate-100 text-[10px] font-bold px-2 py-1 rounded uppercase">${p.method}</span></td>
                                     </tr>
                                 `).join('')}
                             </tbody>
                         </table>
+                        </div>
                     </div>
-                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-8 rounded-3xl text-white">
+                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-6 lg:p-8 rounded-3xl text-white">
                          <h4 class="text-xs font-bold uppercase opacity-60 tracking-widest mb-4">Ringkasan Hari Ini</h4>
-                         <p class="text-3xl font-extrabold mb-8">${formatIDR(70000000)}</p>
+                         <p class="text-2xl lg:text-3xl font-extrabold mb-6 lg:mb-8">${formatIDR(70000000)}</p>
                          <div class="space-y-4">
                             <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
                                 <span class="text-sm opacity-60">Bank Transfer</span>
@@ -1406,26 +1467,26 @@
             `,
 
             outstanding: () => `
-                <div class="mb-8">
-                    <h3 class="text-2xl font-extrabold tracking-tight">Outstanding & H-35 Alerts</h3>
+                <div class="mb-6 lg:mb-8">
+                    <h3 class="text-xl lg:text-2xl font-extrabold tracking-tight">Outstanding & H-35 Alerts</h3>
                     <p class="text-sm text-slate-500">Monitoring piutang jamaah kritis (H-35 Pelunasan)</p>
                 </div>
-                <div class="grid grid-cols-1 gap-6">
+                <div class="grid grid-cols-1 gap-4 lg:gap-6">
                     ${appData.jamaah.filter(j => j.outstanding > 0).map(j => `
-                        <div class="bg-white p-8 rounded-3xl border-l-8 border-red-500 shadow-sm flex items-center justify-between">
-                            <div class="flex-1">
-                                <h4 class="font-extrabold text-xl">${j.name}</h4>
-                                <p class="text-sm text-slate-400 font-bold mb-4 uppercase tracking-widest">${j.package}</p>
-                                <div class="flex gap-12">
-                                    <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Total Piutang</p><p class="text-2xl font-black text-red-600">${formatIDR(j.outstanding)}</p></div>
-                                    <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Deadline H-35</p><p class="text-2xl font-black text-slate-800">12 <span class="text-xs font-bold uppercase opacity-60">Hari Lagi</span></p></div>
+                        <div class="bg-white p-4 sm:p-6 lg:p-8 rounded-2xl lg:rounded-3xl border-l-4 lg:border-l-8 border-red-500 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4 lg:gap-6">
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-extrabold text-base sm:text-lg lg:text-xl truncate">${j.name}</h4>
+                                <p class="text-xs sm:text-sm text-slate-400 font-bold mb-3 lg:mb-4 uppercase tracking-widest truncate">${j.package}</p>
+                                <div class="flex flex-col sm:flex-row gap-3 lg:gap-12">
+                                    <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Total Piutang</p><p class="text-lg lg:text-2xl font-black text-red-600">${formatIDR(j.outstanding)}</p></div>
+                                    <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Deadline H-35</p><p class="text-lg lg:text-2xl font-black text-slate-800">12 <span class="text-xs font-bold uppercase opacity-60">Hari Lagi</span></p></div>
                                 </div>
                             </div>
-                            <div class="flex gap-3">
-                                <button onclick="showToast('Reminder WA Terkirim!')" class="bg-green-100 text-green-600 px-6 py-3 rounded-2xl font-bold text-sm flex items-center gap-2 hover:bg-green-200 transition-all">
-                                    <i class="fas fa-comment w-5 h-5"></i> WA Reminder
+                            <div class="flex flex-col sm:flex-row gap-2 lg:gap-3">
+                                <button onclick="showToast('Reminder WA Terkirim!')" class="bg-green-100 text-green-600 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl lg:rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 hover:bg-green-200 transition-all">
+                                    <i class="fas fa-comment w-4 h-4 lg:w-5 lg:h-5"></i> <span class="hidden sm:inline">WA Reminder</span><span class="sm:hidden">WA</span>
                                 </button>
-                                <button class="bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold text-sm">Lihat Detail</button>
+                                <button class="bg-slate-900 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl lg:rounded-2xl font-bold text-xs sm:text-sm">Lihat Detail</button>
                             </div>
                         </div>
                     `).join('')}
@@ -1433,22 +1494,22 @@
             `,
 
             manifest: () => `
-                <div class="flex justify-between items-center mb-8">
-                    <h3 class="text-2xl font-extrabold tracking-tight">Operational Manifest</h3>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 lg:mb-8 gap-4">
+                    <h3 class="text-xl lg:text-2xl font-extrabold tracking-tight">Operational Manifest</h3>
                     <div class="flex gap-2">
                          <button class="bg-green-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
                             <i class="fas fa-file-excel w-4 h-4"></i> Excel Manifest
                          </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-8">
-                    <div class="flex items-center gap-4 mb-8">
+                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-4 sm:p-6 lg:p-8">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4 lg:mb-8">
                         <label class="text-xs font-bold text-slate-400 uppercase">Pilih Paket :</label>
-                        <select class="bg-slate-100 border-none rounded-xl px-4 py-2 text-sm font-bold focus:ring-2 focus:ring-theme-500">
+                        <select class="bg-slate-100 border-none rounded-xl px-4 py-2 text-sm font-bold focus:ring-2 focus:ring-theme-500 w-full sm:w-auto">
                             ${appData.packages.map(p => `<option>${p.name}</option>`).join('')}
                         </select>
                     </div>
-                    <div class="overflow-x-auto">
+                    <div class="responsive-table-wrapper">
                         <table class="w-full text-left text-sm">
                             <thead class="bg-slate-50 text-[10px] font-bold text-slate-400 uppercase border-b">
                                 <tr>
@@ -1489,13 +1550,13 @@
             `,
 
             passport: () => `
-                <div class="mb-8">
-                    <h3 class="text-2xl font-extrabold tracking-tight">Passport Document Storage</h3>
+                <div class="mb-6 lg:mb-8">
+                    <h3 class="text-xl lg:text-2xl font-extrabold tracking-tight">Passport Document Storage</h3>
                     <p class="text-sm text-slate-500">Monitoring berkas digital passport jamaah</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
                     ${appData.jamaah.map(j => `
-                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                        <div class="bg-white p-4 lg:p-6 rounded-2xl lg:rounded-3xl border border-slate-100 shadow-sm">
                             <div class="flex justify-between items-start mb-4">
                                 <div class="w-12 h-12 bg-theme-50 text-theme-600 rounded-xl flex items-center justify-center"><i class="fas fa-passport w-6 h-6"></i></div>
                                 <span class="text-[10px] font-bold uppercase px-2 py-1 rounded ${j.passport === 'Ada' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}">${j.passport}</span>
@@ -1512,13 +1573,13 @@
             `,
 
             marketing: () => `
-                <div class="mb-8">
-                    <h3 class="text-2xl font-extrabold tracking-tight text-slate-900">Referral Reward (4 Gratis 1)</h3>
+                <div class="mb-6 lg:mb-8">
+                    <h3 class="text-xl lg:text-2xl font-extrabold tracking-tight text-slate-900">Referral Reward (4 Gratis 1)</h3>
                     <p class="text-sm text-slate-500">Sistem monitoring reward jamaah yang membawa rekan</p>
                 </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                     ${appData.referrals.map(r => `
-                        <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden">
+                        <div class="bg-white p-6 lg:p-8 rounded-2xl lg:rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden">
                             ${r.status === 'Qualified' ? '<div class="absolute top-0 right-0 bg-theme-600 text-white px-4 py-2 font-bold text-[10px] rounded-bl-2xl">REWARD READY</div>' : ''}
                             <div class="flex items-center gap-4 mb-8">
                                 <div class="w-16 h-16 bg-theme-50 rounded-2xl flex items-center justify-center text-theme-600 font-black text-2xl">${r.name[0]}</div>
@@ -1547,10 +1608,21 @@
             `,
 
             settings: () => `
-                <div class="mb-8">
-                    <h3 class="text-2xl font-extrabold tracking-tight">System Settings</h3>
+                <div class="mb-6 lg:mb-8">
+                    <h3 class="text-xl lg:text-2xl font-extrabold tracking-tight">System Settings</h3>
                     <p class="text-sm text-slate-500">User Management & Role Permission</p>
                 </div>
+                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="flex border-b overflow-x-auto hide-scrollbar">
+                        <button class="px-6 lg:px-8 py-4 lg:py-5 text-sm font-bold text-theme-600 border-b-2 border-theme-600 whitespace-nowrap">User Access</button>
+                        <button class="px-6 lg:px-8 py-4 lg:py-5 text-sm font-bold text-slate-400 whitespace-nowrap">Security</button>
+                        <button class="px-6 lg:px-8 py-4 lg:py-5 text-sm font-bold text-slate-400 whitespace-nowrap">System Logs</button>
+                    </div>
+                    <div class="p-4 lg:p-8">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 lg:mb-8 gap-4">
+                            <h4 class="font-bold">Active Staff Users</h4>
+                            <button class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold">+ New User</button>
+                        </div>
                 <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
                     <div class="flex border-b overflow-x-auto">
                         <button class="px-8 py-5 text-sm font-bold text-theme-600 border-b-2 border-theme-600">User Access</button>
@@ -1588,6 +1660,19 @@
             if (views[view]) {
                 content.innerHTML = `<div class="animate-fade-in">${views[view]()}</div>`;
                 
+                // Re-attach event listeners for booking form if on booking view
+                if (view === 'booking') {
+                    setTimeout(() => {
+                        const form = document.getElementById('form-booking');
+                        if (form) {
+                            form.querySelectorAll('input, select').forEach(input => {
+                                input.addEventListener('change', updateBookingSummary);
+                                input.addEventListener('input', updateBookingSummary);
+                            });
+                        }
+                    }, 100);
+                }
+                
                 const titleMap = {
                     'dashboard': 'Dashboard Overview',
                     'jamaah': 'Master Jamaah',
@@ -1620,6 +1705,95 @@
             });
         }
 
+        function fillJamaahData(jamaahId) {
+            const jamaah = appData.jamaah.find(j => j.id == jamaahId);
+            if (jamaah) {
+                // Auto-fill logic bisa ditambahkan di sini jika diperlukan
+            }
+        }
+
+        function fillPackageData(packageId) {
+            const pkg = appData.packages.find(p => p.id == packageId);
+            if (pkg) {
+                updateBookingSummary();
+            }
+        }
+
+        function updateBookingSummary() {
+            const packageId = document.querySelector('[name="package_id"]')?.value;
+            const amountPaid = document.querySelector('[name="amount_paid"]')?.value || 0;
+            const paymentType = document.querySelector('[name="payment_type"]')?.value;
+            
+            const pkg = appData.packages.find(p => p.id == packageId);
+            const price = pkg ? pkg.price : 0;
+            const paid = parseInt(amountPaid) || 0;
+            const outstanding = price - paid;
+            
+            document.getElementById('booking-summary-price').textContent = price > 0 ? formatIDR(price) : '-';
+            document.getElementById('booking-summary-paid').textContent = paid > 0 ? formatIDR(paid) : '-';
+            document.getElementById('booking-summary-outstanding').textContent = outstanding > 0 ? formatIDR(outstanding) : (price > 0 ? formatIDR(0) : '-');
+            
+            const statusEl = document.getElementById('booking-summary-status');
+            if (!paymentType || !pkg) {
+                statusEl.textContent = 'Menunggu';
+                statusEl.className = 'px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-slate-200 text-slate-600';
+            } else if (paymentType === 'Lunas' || outstanding <= 0) {
+                statusEl.textContent = 'Lunas';
+                statusEl.className = 'px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-green-100 text-green-600';
+            } else if (paymentType === 'DP') {
+                statusEl.textContent = 'DP';
+                statusEl.className = 'px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-amber-100 text-amber-600';
+            } else {
+                statusEl.textContent = 'Outstanding';
+                statusEl.className = 'px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-red-100 text-red-600';
+            }
+        }
+
+        function saveBooking() {
+            const form = document.getElementById('form-booking');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const formData = new FormData(form);
+            const jamaahId = formData.get('jamaah_id');
+            const packageId = formData.get('package_id');
+            const amountPaid = parseInt(formData.get('amount_paid')) || 0;
+            
+            const jamaah = appData.jamaah.find(j => j.id == jamaahId);
+            const pkg = appData.packages.find(p => p.id == packageId);
+            
+            if (jamaah && pkg) {
+                // Update jamaah data
+                jamaah.package = pkg.name;
+                jamaah.status = amountPaid >= pkg.price ? 'Lunas' : (amountPaid > 0 ? 'DP' : 'Outstanding');
+                jamaah.outstanding = pkg.price - amountPaid;
+                
+                // Update package booked count
+                if (pkg.booked < pkg.quota) {
+                    pkg.booked += 1;
+                }
+                
+                // Add payment record
+                const newPayment = {
+                    id: appData.payments.length > 0 ? Math.max(...appData.payments.map(p => p.id)) + 1 : 1,
+                    inv: `INV-2026-${jamaah.code}`,
+                    name: jamaah.name,
+                    amount: amountPaid,
+                    date: formData.get('booking_date') || new Date().toISOString().split('T')[0],
+                    method: formData.get('payment_method'),
+                    status: 'Success'
+                };
+                appData.payments.push(newPayment);
+                
+                form.reset();
+                updateBookingSummary();
+                showToast('Booking berhasil disimpan!');
+                navigate('booking');
+            }
+        }
+
         function showToast(message) {
             const toast = document.getElementById('toast');
             document.getElementById('toast-message').innerText = message;
@@ -1627,26 +1801,49 @@
             setTimeout(() => toast.classList.add('translate-y-32'), 3000);
         }
 
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            const isOpen = !sidebar.classList.contains('-translate-x-full');
+
+            if (isOpen) {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.add('active');
+            }
+        }
+
         window.onload = () => {
             // Wait for CDN libs
             setTimeout(() => {
                 navigate('dashboard');
                 
-                // Toggle Sidebar Logic
-                document.getElementById('toggle-sidebar').onclick = () => {
-                    const sidebar = document.getElementById('sidebar');
-                    const isCollapsed = sidebar.classList.contains('w-20');
-                    
-                    if (isCollapsed) {
-                        sidebar.classList.remove('w-20');
-                        sidebar.classList.add('w-64');
-                        document.querySelectorAll('.sidebar-text').forEach(el => el.classList.remove('hidden'));
-                    } else {
-                        sidebar.classList.remove('w-64');
-                        sidebar.classList.add('w-20');
-                        document.querySelectorAll('.sidebar-text').forEach(el => el.classList.add('hidden'));
-                    }
-                };
+                // Desktop Toggle Sidebar Logic
+                const desktopToggle = document.getElementById('toggle-sidebar');
+                if (desktopToggle) {
+                    desktopToggle.onclick = () => {
+                        const sidebar = document.getElementById('sidebar');
+                        const isCollapsed = sidebar.classList.contains('w-20');
+                        
+                        if (isCollapsed) {
+                            sidebar.classList.remove('w-20');
+                            sidebar.classList.add('w-64');
+                            document.querySelectorAll('.sidebar-text').forEach(el => el.classList.remove('hidden'));
+                        } else {
+                            sidebar.classList.remove('w-64');
+                            sidebar.classList.add('w-20');
+                            document.querySelectorAll('.sidebar-text').forEach(el => el.classList.add('hidden'));
+                        }
+                    };
+                }
+
+                // Mobile Toggle Sidebar Logic
+                const mobileToggle = document.getElementById('mobile-toggle');
+                if (mobileToggle) {
+                    mobileToggle.onclick = toggleMobileSidebar;
+                }
             }, 100);
         };
     </script>
