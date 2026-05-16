@@ -18,7 +18,7 @@
         .seat-filter-bar select { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px 16px; font-size: 13px; font-weight: 600; color: #334155; cursor: pointer; }
         .seat-filter-bar .seat-status-tabs { display: flex; background: #f1f5f9; border-radius: 12px; padding: 4px; }
         .seat-filter-bar .seat-status-tabs button { padding: 6px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; border: none; background: transparent; color: #64748b; cursor: pointer; transition: all 0.2s; }
-        .seat-filter-bar .seat-status-tabs button.active { background: white; color: #2563eb; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .seat-filter-bar .seat-status-tabs button.active { background: white; color: #95a88d; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .seat-filter-bar input[type="text"] { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px 16px; font-size: 13px; width: 220px; }
         .seat-stat-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
         @media (max-width: 768px) { .seat-stat-cards { grid-template-columns: repeat(2, 1fr); } }
@@ -27,7 +27,7 @@
         .seat-stat-card .stat-value { font-size: 24px; font-weight: 800; color: #0f172a; }
         .seat-stat-card .stat-value.red { color: #ef4444; }
         .seat-stat-card .stat-value.amber { color: #f59e0b; }
-        .seat-stat-card .stat-value.blue { color: #3b82f6; }
+        .seat-stat-card .stat-value.blue { color: #95a88d; }
         .seat-package-card { background: white; border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 24px; overflow: hidden; }
         .seat-package-header { display: flex; justify-content: space-between; align-items: flex-start; padding: 24px 28px; cursor: pointer; transition: background 0.2s; user-select: none; }
         .seat-package-header:hover { background: #f8fafc; }
@@ -40,13 +40,13 @@
         .seat-occupancy-rate { font-size: 28px; font-weight: 900; }
         .seat-occupancy-rate.red { color: #ef4444; }
         .seat-occupancy-rate.amber { color: #f59e0b; }
-        .seat-occupancy-rate.blue { color: #3b82f6; }
+        .seat-occupancy-rate.blue { color: #95a88d; }
         .seat-progress-container { margin-bottom: 20px; }
         .seat-progress-bar { width: 100%; height: 10px; background: #f1f5f9; border-radius: 9999px; overflow: hidden; }
         .seat-progress-fill { height: 100%; border-radius: 9999px; transition: width 0.5s ease; }
         .seat-progress-fill.red { background: #ef4444; }
         .seat-progress-fill.amber { background: #f59e0b; }
-        .seat-progress-fill.blue { background: #3b82f6; }
+        .seat-progress-fill.blue { background: #95a88d; }
         .seat-progress-stats { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #64748b; margin-top: 6px; }
         .seat-map-container { display: flex; flex-direction: column; gap: 12px; }
         .seat-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
@@ -54,13 +54,13 @@
         @media (max-width: 640px) { .seat-row { grid-template-columns: repeat(2, 1fr); } }
         .seat-slot { position: relative; border-radius: 14px; padding: 16px 12px; transition: all 0.2s ease; cursor: pointer; min-height: 120px; display: flex; flex-direction: column; justify-content: space-between; }
         .seat-slot.occupied { background: #f8fafc; border: 2px solid #e2e8f0; }
-        .seat-slot.occupied:hover { border-color: #3b82f6; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15); }
+        .seat-slot.occupied:hover { border-color: #95a88d; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15); }
         .seat-slot.available { background: #fafafa; border: 2px dashed #cbd5e1; }
-        .seat-slot.available:hover { border-color: #3b82f6; background: #eff6ff; }
+        .seat-slot.available:hover { border-color: #95a88d; background: #eef2ec; }
         .seat-slot.dimmed { opacity: 0.3; }
         .seat-slot .seat-number { position: absolute; top: 8px; left: 10px; font-size: 11px; font-weight: 800; color: #94a3b8; }
         .seat-slot .seat-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: white; margin-bottom: 8px; align-self: center; margin-top: 8px; }
-        .seat-slot .seat-avatar.male { background: #3b82f6; }
+        .seat-slot .seat-avatar.male { background: #95a88d; }
         .seat-slot .seat-avatar.female { background: #ec4899; }
         .seat-slot .seat-name { font-size: 13px; font-weight: 700; color: #0f172a; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
         .seat-slot .seat-code { font-size: 10px; font-weight: 700; color: #94a3b8; text-align: center; font-family: monospace; margin-bottom: 6px; }
@@ -94,19 +94,37 @@
         .modal-body { padding: 24px 32px; overflow-y: auto; flex: 1; }
         .modal-footer { padding: 20px 32px; border-top: 1px solid #f1f5f9; display: flex; justify-content: flex-end; gap: 12px; }
         .form-section { margin-bottom: 28px; }
-        .form-section-title { font-size: 12px; font-weight: 800; color: #2563eb; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #eff6ff; }
+        .form-section-title { font-size: 12px; font-weight: 800; color: #95a88d; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #eef2ec; }
         .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
         @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
         .form-group { display: flex; flex-direction: column; gap: 6px; }
         .form-label { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; }
         .form-input, .form-select, .form-textarea { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #0f172a; transition: all 0.2s; font-family: 'Inter', sans-serif; }
-        .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: #3b82f6; background: white; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: #95a88d; background: white; box-shadow: 0 0 0 3px rgba(149, 168, 141, 0.1); }
         .form-textarea { resize: vertical; min-height: 80px; }
         .form-select { cursor: pointer; }
-        .btn-primary { background: #2563eb; color: white; padding: 10px 24px; border-radius: 10px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s; }
-        .btn-primary:hover { background: #1d4ed8; }
+        .btn-primary { background: #95a88d; color: white; padding: 10px 24px; border-radius: 10px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s; }
+        .btn-primary:hover { background: #788a70; }
         .btn-secondary { background: #f1f5f9; color: #64748b; padding: 10px 24px; border-radius: 10px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s; }
         .btn-secondary:hover { background: #e2e8f0; color: #475569; }
+        /* Theme Color Override */
+        :root { --theme-primary: #95a88d; --theme-dark: #788a70; --theme-light: #eef2ec; --theme-lighter: #f5f7f4; }
+        .bg-theme-600 { background-color: #95a88d !important; }
+        .bg-theme-500 { background-color: #95a88d !important; }
+        .bg-theme-100 { background-color: #eef2ec !important; }
+        .bg-theme-50 { background-color: #f5f7f4 !important; }
+        .text-theme-600 { color: #95a88d !important; }
+        .text-theme-500 { color: #95a88d !important; }
+        .border-theme-600 { border-color: #95a88d !important; }
+        .hover\:bg-theme-700:hover { background-color: #788a70 !important; }
+        .hover\:bg-theme-100:hover { background-color: #eef2ec !important; }
+        .hover\:text-theme-600:hover { color: #95a88d !important; }
+        .shadow-theme-200 { --tw-shadow-color: rgba(149, 168, 141, 0.2); --tw-shadow: var(--tw-shadow-colored); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
+        .shadow-theme-100 { --tw-shadow-color: rgba(149, 168, 141, 0.15); --tw-shadow: var(--tw-shadow-colored); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
+        .from-theme-500 { --tw-gradient-from: #95a88d var(--tw-gradient-from-position); --tw-gradient-to: rgba(149, 168, 141, 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+        .to-theme-600 { --tw-gradient-to: #95a88d var(--tw-gradient-to-position); }
+        .focus\:ring-theme-500\:20:focus { --tw-ring-color: rgba(149, 168, 141, 0.2); }
+        .focus\:border-theme-500:focus { border-color: #95a88d; }
     </style>
 </head>
 <body class="text-slate-800">
@@ -115,7 +133,7 @@
         
         <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 flex flex-col transition-all duration-300 shadow-sm z-20">
             <div class="p-6 flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-200">
+                <div class="w-10 h-10 bg-theme-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-theme-200">
                     <i class="fas fa-plane"></i>
                 </div>
                 <div class="sidebar-text">
@@ -211,14 +229,14 @@
                 <div class="flex items-center gap-6">
                     <div class="relative hidden lg:block">
                         <i class="fas fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                        <input type="text" placeholder="Cari data..." class="pl-10 pr-4 py-2 bg-slate-100/50 border border-transparent rounded-xl text-sm w-64 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all">
+                        <input type="text" placeholder="Cari data..." class="pl-10 pr-4 py-2 bg-slate-100/50 border border-transparent rounded-xl text-sm w-64 focus:outline-none focus:ring-2 focus:ring-theme-500:20 focus:bg-white transition-all">
                     </div>
                     <div class="flex items-center gap-3 pl-6 border-l border-slate-100">
                         <div class="text-right hidden sm:block">
                             <p class="text-xs font-bold">Ahmad Fauzi</p>
                             <p class="text-[10px] text-slate-400 uppercase font-bold">Super Admin</p>
                         </div>
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-md">AF</div>
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-theme-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-md">AF</div>
                     </div>
                 </div>
             </header>
@@ -253,7 +271,7 @@
             packages: [
                 { id: 1, name: 'Gold Umrah Nov 2026', code: 'PKG-NOV26', quota: 45, booked: 42, color: 'bg-amber-500', departure: '2026-11-10', price: 32500000 },
                 { id: 2, name: 'Ramadhan Full 2026', code: 'PKG-RAM26', quota: 50, booked: 20, color: 'bg-emerald-500', departure: '2026-03-15', price: 45000000 },
-                { id: 3, name: 'Promo Jan 2026', code: 'PKG-JAN26', quota: 30, booked: 30, color: 'bg-blue-500', departure: '2026-01-20', price: 27500000 }
+                { id: 3, name: 'Promo Jan 2026', code: 'PKG-JAN26', quota: 30, booked: 30, color: 'bg-theme-500', departure: '2026-01-20', price: 27500000 }
             ],
             payments: [
                 { id: 1, inv: 'INV-2026-001', name: 'Budi Santoso', amount: 32500000, date: '2026-05-10', method: 'Bank Transfer', status: 'Success' },
@@ -850,7 +868,7 @@
             const formData = new FormData(form);
             const newId = appData.packages.length > 0 ? Math.max(...appData.packages.map(p => p.id)) + 1 : 1;
             const newCode = 'PKG-' + String(newId).padStart(3, '0');
-            const colors = ['bg-amber-500', 'bg-emerald-500', 'bg-blue-500', 'bg-purple-500', 'bg-rose-500', 'bg-cyan-500'];
+            const colors = ['bg-amber-500', 'bg-emerald-500', 'bg-theme-500', 'bg-purple-500', 'bg-rose-500', 'bg-cyan-500'];
             const color = colors[(newId - 1) % colors.length];
 
             const newPackage = {
@@ -988,7 +1006,7 @@
             dashboard: () => `
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center"><i class="fas fa-users"></i></div>
+                        <div class="w-12 h-12 bg-theme-100 text-theme-600 rounded-2xl flex items-center justify-center"><i class="fas fa-users"></i></div>
                         <div><p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Total Jamaah</p><h3 class="text-xl font-extrabold tracking-tight">1,284</h3></div>
                     </div>
                     <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
@@ -1008,12 +1026,12 @@
                     <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
                         <div class="flex justify-between items-center mb-6">
                             <h4 class="font-bold text-slate-800">Aktivitas Terkini</h4>
-                            <button class="text-blue-600 text-xs font-bold uppercase">Lihat Semua</button>
+                            <button class="text-theme-600 text-xs font-bold uppercase">Lihat Semua</button>
                         </div>
                         <div class="space-y-6">
                             ${appData.payments.map(p => `
                                 <div class="flex items-start gap-4">
-                                    <div class="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                                    <div class="w-2 h-2 bg-theme-500 rounded-full mt-2"></div>
                                     <div class="flex-1">
                                         <p class="text-sm"><span class="font-bold">${p.name}</span> melakukan pembayaran <span class="text-emerald-600 font-bold">${formatIDR(p.amount)}</span></p>
                                         <p class="text-[10px] text-slate-400 mt-1">${p.date} • via ${p.method}</p>
@@ -1022,7 +1040,7 @@
                             `).join('')}
                         </div>
                     </div>
-                    <div class="bg-blue-600 p-8 rounded-3xl text-white shadow-xl shadow-blue-200">
+                    <div class="bg-theme-600 p-8 rounded-3xl text-white shadow-xl shadow-theme-200">
                         <h4 class="font-bold mb-4">Target Penjualan 2026</h4>
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-sm opacity-80">Progress Tahunan</span>
@@ -1048,7 +1066,7 @@
             jamaah: () => `
                 <div class="flex justify-between items-center mb-8">
                     <h3 class="text-2xl font-extrabold tracking-tight">Master Jamaah</h3>
-                    <button onclick="openModalJamaah()" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-blue-100">
+                    <button onclick="openModalJamaah()" class="bg-theme-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-theme-100">
                         <i class="fas fa-plus w-4 h-4"></i> Tambah Jamaah
                     </button>
                 </div>
@@ -1068,11 +1086,11 @@
                             ${appData.jamaah.map(j => `
                                 <tr class="hover:bg-slate-50/50 transition-colors group">
                                     <td class="px-8 py-5">
-                                        <p class="text-blue-600 font-mono text-[10px] font-bold mb-1">${j.code}</p>
+                                        <p class="text-theme-600 font-mono text-[10px] font-bold mb-1">${j.code}</p>
                                         <p class="font-bold text-sm">${j.name}</p>
                                     </td>
                                     <td class="px-8 py-5">
-                                        <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase ${j.gender === 'L' ? 'bg-blue-100 text-blue-600' : 'bg-pink-100 text-pink-600'}">
+                                        <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase ${j.gender === 'L' ? 'bg-theme-100 text-theme-600' : 'bg-pink-100 text-pink-600'}">
                                             ${j.gender === 'L' ? 'Laki-laki' : 'Perempuan'}
                                         </span>
                                     </td>
@@ -1090,7 +1108,7 @@
                                     </td>
                                     <td class="px-8 py-5">
                                         <div class="flex gap-2">
-                                            <button class="flex items-center gap-1.5 px-3 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-bold transition-colors">
+                                            <button class="flex items-center gap-1.5 px-3 py-2 bg-theme-50 text-theme-600 hover:bg-theme-100 rounded-lg text-xs font-bold transition-colors">
                                                 <i class="fas fa-eye w-3.5 h-3.5"></i> Detail
                                             </button>
                                             <button class="flex items-center gap-1.5 px-3 py-2 bg-slate-50 text-slate-600 hover:bg-slate-100 rounded-lg text-xs font-bold transition-colors">
@@ -1112,7 +1130,7 @@
             paket: () => `
                 <div class="flex justify-between items-center mb-8">
                     <h3 class="text-2xl font-extrabold tracking-tight">Paket Program</h3>
-                    <button onclick="openModalPaket()" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
+                    <button onclick="openModalPaket()" class="bg-theme-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
                         <i class="fas fa-plus w-4 h-4"></i> Buat Paket Baru
                     </button>
                 </div>
@@ -1144,7 +1162,7 @@
                                 </div>
                             </div>
                             <div class="p-4 bg-slate-50 border-t flex justify-center">
-                                <button class="text-blue-600 text-xs font-bold hover:underline">Kelola Detail Paket</button>
+                                <button class="text-theme-600 text-xs font-bold hover:underline">Kelola Detail Paket</button>
                             </div>
                         </div>
                     `).join('')}
@@ -1155,7 +1173,7 @@
             agen: () => `
                 <div class="flex justify-between items-center mb-8">
                     <h3 class="text-2xl font-extrabold tracking-tight">Data Agen Mitra</h3>
-                    <button onclick="openModalAgen()" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-blue-100">
+                    <button onclick="openModalAgen()" class="bg-theme-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-theme-100">
                         <i class="fas fa-plus w-4 h-4"></i> Tambah Agen
                     </button>
                 </div>
@@ -1174,7 +1192,7 @@
                             ${appData.agen.map(a => `
                                 <tr class="hover:bg-slate-50/50 transition-colors group">
                                     <td class="px-8 py-5">
-                                        <p class="text-blue-600 font-mono text-[10px] font-bold mb-1">${a.code}</p>
+                                        <p class="text-theme-600 font-mono text-[10px] font-bold mb-1">${a.code}</p>
                                         <p class="font-bold text-sm">${a.name}</p>
                                     </td>
                                     <td class="px-8 py-5">
@@ -1188,7 +1206,7 @@
                                     </td>
                                     <td class="px-8 py-5">
                                         <div class="flex gap-2">
-                                            <button class="flex items-center gap-1.5 px-3 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-bold transition-colors">
+                                            <button class="flex items-center gap-1.5 px-3 py-2 bg-theme-50 text-theme-600 hover:bg-theme-100 rounded-lg text-xs font-bold transition-colors">
                                                 <i class="fas fa-eye w-3.5 h-3.5"></i> Detail
                                             </button>
                                             <button class="flex items-center gap-1.5 px-3 py-2 bg-slate-50 text-slate-600 hover:bg-slate-100 rounded-lg text-xs font-bold transition-colors">
@@ -1218,34 +1236,34 @@
                     <div class="bg-white rounded-3xl p-10 border border-slate-100 shadow-sm space-y-8">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div class="space-y-4">
-                                <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest border-b pb-2">1. Pilih Jamaah</h4>
+                                <h4 class="text-xs font-bold text-theme-600 uppercase tracking-widest border-b pb-2">1. Pilih Jamaah</h4>
                                 <div>
                                     <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Cari Nama Jamaah</label>
-                                    <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500">
+                                    <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-theme-500">
                                         <option>Pilih Jamaah dari Master Data...</option>
                                         ${appData.jamaah.map(j => `<option>${j.name} (${j.code})</option>`).join('')}
                                     </select>
                                 </div>
                                 <div>
                                     <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Referral / Agen</label>
-                                    <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500">
+                                    <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-theme-500">
                                         <option>Direct (Tanpa Agen)</option>
                                         ${appData.agen.map(a => `<option>${a.name}</option>`).join('')}
                                     </select>
                                 </div>
                             </div>
                             <div class="space-y-4">
-                                <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest border-b pb-2">2. Pilih Program</h4>
+                                <h4 class="text-xs font-bold text-theme-600 uppercase tracking-widest border-b pb-2">2. Pilih Program</h4>
                                 <div>
                                     <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Paket Umrah</label>
-                                    <select id="pkg-select" class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500">
+                                    <select id="pkg-select" class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-theme-500">
                                         ${appData.packages.map(p => `<option value="${p.price}">${p.name} - ${formatIDR(p.price)}</option>`).join('')}
                                     </select>
                                 </div>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tipe Kamar</label>
-                                        <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500">
+                                        <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-theme-500">
                                             <option>Quad</option>
                                             <option>Triple (+2.5jt)</option>
                                             <option>Double (+5jt)</option>
@@ -1253,7 +1271,7 @@
                                     </div>
                                     <div>
                                         <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Skema Bayar</label>
-                                        <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500">
+                                        <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-theme-500">
                                             <option>DP Awal</option>
                                             <option>Cash Full</option>
                                         </select>
@@ -1266,7 +1284,7 @@
                                 <p class="text-[10px] font-bold opacity-60 uppercase tracking-wider">Total Estimasi Tagihan</p>
                                 <p id="total-estimasi" class="text-3xl font-extrabold tracking-tight">${formatIDR(32500000)}</p>
                             </div>
-                            <button onclick="showToast('Booking berhasil dibuat!')" class="bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-xl font-bold transition-all flex items-center gap-2">
+                            <button onclick="showToast('Booking berhasil dibuat!')" class="bg-theme-600 hover:bg-theme-700 px-8 py-4 rounded-xl font-bold transition-all flex items-center gap-2">
                                 <i class="fas fa-circle-check w-5 h-5"></i> Konfirmasi Booking
                             </button>
                         </div>
@@ -1301,7 +1319,7 @@
                          <button class="bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
                              <i class="fas fa-filter w-4 h-4"></i> Filter
                          </button>
-                         <button class="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
+                         <button class="bg-theme-600 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
                              <i class="fas fa-download w-4 h-4"></i> Export Rekap
                          </button>
                     </div>
@@ -1321,7 +1339,7 @@
                         <tbody class="divide-y divide-slate-50">
                             ${appData.jamaah.map(j => `
                                 <tr>
-                                    <td class="px-8 py-5 font-mono text-sm text-blue-600 font-bold">INV/2026/${j.code}</td>
+                                    <td class="px-8 py-5 font-mono text-sm text-theme-600 font-bold">INV/2026/${j.code}</td>
                                     <td class="px-8 py-5 font-bold text-sm">${j.name}</td>
                                     <td class="px-8 py-5 font-bold text-sm">${formatIDR(j.outstanding > 0 ? j.outstanding + 5000000 : 32500000)}</td>
                                     <td class="px-8 py-5 font-bold text-red-500 text-sm">${formatIDR(j.outstanding)}</td>
@@ -1331,7 +1349,7 @@
                                         </span>
                                     </td>
                                     <td class="px-8 py-5">
-                                        <button class="text-slate-400 hover:text-blue-600"><i class="fas fa-file-arrow-down w-5 h-5"></i></button>
+                                        <button class="text-slate-400 hover:text-theme-600"><i class="fas fa-file-arrow-down w-5 h-5"></i></button>
                                     </td>
                                 </tr>
                             `).join('')}
@@ -1426,7 +1444,7 @@
                 <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-8">
                     <div class="flex items-center gap-4 mb-8">
                         <label class="text-xs font-bold text-slate-400 uppercase">Pilih Paket :</label>
-                        <select class="bg-slate-100 border-none rounded-xl px-4 py-2 text-sm font-bold focus:ring-2 focus:ring-blue-500">
+                        <select class="bg-slate-100 border-none rounded-xl px-4 py-2 text-sm font-bold focus:ring-2 focus:ring-theme-500">
                             ${appData.packages.map(p => `<option>${p.name}</option>`).join('')}
                         </select>
                     </div>
@@ -1452,14 +1470,14 @@
                                             <span class="font-bold ml-1">${j.name}</span>
                                         </td>
                                         <td class="px-4 py-4">
-                                            <span class="px-2 py-1 rounded text-[10px] font-bold uppercase ${j.gender === 'L' ? 'bg-blue-100 text-blue-600' : 'bg-pink-100 text-pink-600'}">
+                                            <span class="px-2 py-1 rounded text-[10px] font-bold uppercase ${j.gender === 'L' ? 'bg-theme-100 text-theme-600' : 'bg-pink-100 text-pink-600'}">
                                                 ${j.gender === 'L' ? 'Laki-laki' : 'Perempuan'}
                                             </span>
                                         </td>
                                         <td class="px-4 py-4 text-slate-600">${j.birthPlace}, ${j.dob}</td>
                                         <td class="px-4 py-4 font-bold text-center">${j.age}</td>
                                         <td class="px-4 py-4 font-mono text-slate-600">${j.identityNo}</td>
-                                        <td class="px-4 py-4 font-mono font-bold text-blue-600">${j.passportNo}</td>
+                                        <td class="px-4 py-4 font-mono font-bold text-theme-600">${j.passportNo}</td>
                                         <td class="px-4 py-4 text-slate-600">${j.email}</td>
                                         <td class="px-4 py-4 font-medium">${j.phone}</td>
                                     </tr>
@@ -1479,14 +1497,14 @@
                     ${appData.jamaah.map(j => `
                         <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
                             <div class="flex justify-between items-start mb-4">
-                                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i class="fas fa-passport w-6 h-6"></i></div>
+                                <div class="w-12 h-12 bg-theme-50 text-theme-600 rounded-xl flex items-center justify-center"><i class="fas fa-passport w-6 h-6"></i></div>
                                 <span class="text-[10px] font-bold uppercase px-2 py-1 rounded ${j.passport === 'Ada' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}">${j.passport}</span>
                             </div>
                             <h4 class="font-bold mb-1">${j.name}</h4>
                             <p class="text-[10px] font-mono text-slate-400 mb-6 uppercase">${j.passportNo}</p>
                             <div class="flex gap-2">
                                 <button class="flex-1 bg-slate-100 text-slate-600 py-2 rounded-xl text-xs font-bold hover:bg-slate-200"><i class="fas fa-eye w-3 h-3 inline mr-1"></i> Preview</button>
-                                <button class="flex-1 bg-blue-600 text-white py-2 rounded-xl text-xs font-bold hover:bg-blue-700"><i class="fas fa-upload w-3 h-3 inline mr-1"></i> Upload</button>
+                                <button class="flex-1 bg-theme-600 text-white py-2 rounded-xl text-xs font-bold hover:bg-theme-700"><i class="fas fa-upload w-3 h-3 inline mr-1"></i> Upload</button>
                             </div>
                         </div>
                     `).join('')}
@@ -1501,9 +1519,9 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     ${appData.referrals.map(r => `
                         <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden">
-                            ${r.status === 'Qualified' ? '<div class="absolute top-0 right-0 bg-blue-600 text-white px-4 py-2 font-bold text-[10px] rounded-bl-2xl">REWARD READY</div>' : ''}
+                            ${r.status === 'Qualified' ? '<div class="absolute top-0 right-0 bg-theme-600 text-white px-4 py-2 font-bold text-[10px] rounded-bl-2xl">REWARD READY</div>' : ''}
                             <div class="flex items-center gap-4 mb-8">
-                                <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 font-black text-2xl">${r.name[0]}</div>
+                                <div class="w-16 h-16 bg-theme-50 rounded-2xl flex items-center justify-center text-theme-600 font-black text-2xl">${r.name[0]}</div>
                                 <div>
                                     <h4 class="font-bold text-xl">${r.name}</h4>
                                     <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">${r.status}</p>
@@ -1511,16 +1529,16 @@
                             </div>
                             <div class="mb-2 flex justify-between text-sm font-bold">
                                 <span class="text-slate-500 uppercase text-[10px]">Progress Referral</span>
-                                <span class="text-blue-600 font-black tracking-widest">${r.count}/4</span>
+                                <span class="text-theme-600 font-black tracking-widest">${r.count}/4</span>
                             </div>
                             <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-8">
-                                <div class="h-full bg-blue-600 progress-bar" style="width: ${(r.count/4)*100}%"></div>
+                                <div class="h-full bg-theme-600 progress-bar" style="width: ${(r.count/4)*100}%"></div>
                             </div>
                             <div class="space-y-3 mb-8">
                                 <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">History Jamaah Dibawa:</p>
                                 ${r.history.map(h => `<div class="flex items-center gap-2 text-xs font-medium text-slate-600 bg-slate-50 p-2 rounded-lg"><i class="fas fa-check w-3 h-3 text-green-500"></i> ${h}</div>`).join('')}
                             </div>
-                            <button class="w-full py-4 rounded-2xl font-black text-sm transition-all ${r.status === 'Qualified' ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-slate-100 text-slate-400 cursor-not-allowed'}">
+                            <button class="w-full py-4 rounded-2xl font-black text-sm transition-all ${r.status === 'Qualified' ? 'bg-theme-600 text-white shadow-lg shadow-theme-200' : 'bg-slate-100 text-slate-400 cursor-not-allowed'}">
                                 ${r.status === 'Qualified' ? 'CLAIM FREE SEAT REWARD' : 'TIDAK DAPAT DIKLAIM'}
                             </button>
                         </div>
@@ -1535,7 +1553,7 @@
                 </div>
                 <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
                     <div class="flex border-b overflow-x-auto">
-                        <button class="px-8 py-5 text-sm font-bold text-blue-600 border-b-2 border-blue-600">User Access</button>
+                        <button class="px-8 py-5 text-sm font-bold text-theme-600 border-b-2 border-theme-600">User Access</button>
                         <button class="px-8 py-5 text-sm font-bold text-slate-400">Security</button>
                         <button class="px-8 py-5 text-sm font-bold text-slate-400">System Logs</button>
                     </div>
@@ -1552,7 +1570,7 @@
                                         <div><p class="text-sm font-bold">${user}</p><p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Active Access</p></div>
                                     </div>
                                     <div class="flex gap-2">
-                                        <button class="p-2 text-slate-400 hover:text-blue-600"><i class="fas fa-sliders w-4 h-4"></i></button>
+                                        <button class="p-2 text-slate-400 hover:text-theme-600"><i class="fas fa-sliders w-4 h-4"></i></button>
                                         <button class="p-2 text-slate-400 hover:text-red-500"><i class="fas fa-trash w-4 h-4"></i></button>
                                     </div>
                                 </div>
@@ -1593,10 +1611,10 @@
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 const isActive = btn.getAttribute('data-view') === view;
                 if (isActive) {
-                    btn.classList.add('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-200');
+                    btn.classList.add('bg-theme-600', 'text-white', 'shadow-lg', 'shadow-theme-200');
                     btn.classList.remove('text-slate-600', 'hover:bg-slate-50');
                 } else {
-                    btn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-200');
+                    btn.classList.remove('bg-theme-600', 'text-white', 'shadow-lg', 'shadow-theme-200');
                     btn.classList.add('text-slate-600', 'hover:bg-slate-50');
                 }
             });
