@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rindu Rawda Mulia Backoffice - All Modules</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .animate-fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-bar { transition: width 0.5s ease-in-out; }
+        /* Seat Monitoring Styles */
+        .seat-filter-bar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 24px; }
+        .seat-filter-bar select { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px 16px; font-size: 13px; font-weight: 600; color: #334155; cursor: pointer; }
+        .seat-filter-bar .seat-status-tabs { display: flex; background: #f1f5f9; border-radius: 12px; padding: 4px; }
+        .seat-filter-bar .seat-status-tabs button { padding: 6px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; border: none; background: transparent; color: #64748b; cursor: pointer; transition: all 0.2s; }
+        .seat-filter-bar .seat-status-tabs button.active { background: white; color: #2563eb; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .seat-filter-bar input[type="text"] { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px 16px; font-size: 13px; width: 220px; }
+        .seat-stat-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+        @media (max-width: 768px) { .seat-stat-cards { grid-template-columns: repeat(2, 1fr); } }
+        .seat-stat-card { background: white; padding: 20px; border-radius: 16px; border: 1px solid #f1f5f9; text-align: center; }
+        .seat-stat-card .stat-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+        .seat-stat-card .stat-value { font-size: 24px; font-weight: 800; color: #0f172a; }
+        .seat-stat-card .stat-value.red { color: #ef4444; }
+        .seat-stat-card .stat-value.amber { color: #f59e0b; }
+        .seat-stat-card .stat-value.blue { color: #3b82f6; }
+        .seat-package-card { background: white; border-radius: 20px; border: 1px solid #e2e8f0; margin-bottom: 24px; overflow: hidden; }
+        .seat-package-header { display: flex; justify-content: space-between; align-items: flex-start; padding: 24px 28px; cursor: pointer; transition: background 0.2s; user-select: none; }
+        .seat-package-header:hover { background: #f8fafc; }
+        .seat-package-toggle { width: 32px; height: 32px; border-radius: 8px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; transition: transform 0.3s; margin-left: 12px; flex-shrink: 0; }
+        .seat-package-toggle.collapsed { transform: rotate(-90deg); }
+        .seat-package-body { max-height: 2000px; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.3s, opacity 0.3s; padding: 0 28px 28px; opacity: 1; }
+        .seat-package-body.collapsed { max-height: 0; padding: 0 28px; opacity: 0; }
+        .seat-package-info h4 { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+        .seat-package-meta { display: flex; gap: 16px; font-size: 12px; color: #64748b; font-weight: 600; }
+        .seat-occupancy-rate { font-size: 28px; font-weight: 900; }
+        .seat-occupancy-rate.red { color: #ef4444; }
+        .seat-occupancy-rate.amber { color: #f59e0b; }
+        .seat-occupancy-rate.blue { color: #3b82f6; }
+        .seat-progress-container { margin-bottom: 20px; }
+        .seat-progress-bar { width: 100%; height: 10px; background: #f1f5f9; border-radius: 9999px; overflow: hidden; }
+        .seat-progress-fill { height: 100%; border-radius: 9999px; transition: width 0.5s ease; }
+        .seat-progress-fill.red { background: #ef4444; }
+        .seat-progress-fill.amber { background: #f59e0b; }
+        .seat-progress-fill.blue { background: #3b82f6; }
+        .seat-progress-stats { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #64748b; margin-top: 6px; }
+        .seat-map-container { display: flex; flex-direction: column; gap: 12px; }
+        .seat-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+        @media (max-width: 1024px) { .seat-row { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 640px) { .seat-row { grid-template-columns: repeat(2, 1fr); } }
+        .seat-slot { position: relative; border-radius: 14px; padding: 16px 12px; transition: all 0.2s ease; cursor: pointer; min-height: 120px; display: flex; flex-direction: column; justify-content: space-between; }
+        .seat-slot.occupied { background: #f8fafc; border: 2px solid #e2e8f0; }
+        .seat-slot.occupied:hover { border-color: #3b82f6; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15); }
+        .seat-slot.available { background: #fafafa; border: 2px dashed #cbd5e1; }
+        .seat-slot.available:hover { border-color: #3b82f6; background: #eff6ff; }
+        .seat-slot.dimmed { opacity: 0.3; }
+        .seat-slot .seat-number { position: absolute; top: 8px; left: 10px; font-size: 11px; font-weight: 800; color: #94a3b8; }
+        .seat-slot .seat-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: white; margin-bottom: 8px; align-self: center; margin-top: 8px; }
+        .seat-slot .seat-avatar.male { background: #3b82f6; }
+        .seat-slot .seat-avatar.female { background: #ec4899; }
+        .seat-slot .seat-name { font-size: 13px; font-weight: 700; color: #0f172a; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+        .seat-slot .seat-code { font-size: 10px; font-weight: 700; color: #94a3b8; text-align: center; font-family: monospace; margin-bottom: 6px; }
+        .seat-slot .seat-badges { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; }
+        .seat-slot .seat-badge { font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.03em; }
+        .seat-slot .seat-badge.status-lunas { background: #dcfce7; color: #16a34a; }
+        .seat-slot .seat-badge.status-dp { background: #fef3c7; color: #d97706; }
+        .seat-slot .seat-badge.status-outstanding { background: #fee2e2; color: #dc2626; }
+        .seat-slot .seat-badge.passport-ada { background: #dcfce7; color: #16a34a; }
+        .seat-slot .seat-badge.passport-proses { background: #fef3c7; color: #d97706; }
+        .seat-slot .seat-badge.passport-expired { background: #fee2e2; color: #dc2626; }
+        .seat-slot .seat-available-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 6px; }
+        .seat-slot .seat-available-content i { color: #94a3b8; }
+        .seat-slot .seat-available-content span { font-size: 12px; font-weight: 700; color: #94a3b8; }
+        .seat-tooltip { position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); background: #0f172a; color: white; padding: 12px 16px; border-radius: 12px; font-size: 12px; white-space: nowrap; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.2s; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .seat-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: #0f172a; }
+        .seat-slot:hover .seat-tooltip { opacity: 1; }
+        .seat-tooltip-row { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 4px; }
+        .seat-tooltip-row:last-child { margin-bottom: 0; }
+        .seat-tooltip-label { color: #94a3b8; font-weight: 600; }
+        .seat-tooltip-value { font-weight: 700; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div id="app" class="flex h-screen overflow-hidden">
+        
+        <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 flex flex-col transition-all duration-300 shadow-sm z-20">
+            <div class="p-6 flex items-center gap-3">
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-200">
+                    <i class="fas fa-plane"></i>
+                </div>
+                <div class="sidebar-text">
+                    <h1 class="font-bold text-slate-900 leading-none">Rindu Rawda Mulia</h1>
+                    <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">System Admin</span>
+                </div>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto p-4 space-y-1 hide-scrollbar">
+                <!-- Dashboard -->
+                <button onclick="navigate('dashboard')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all" data-view="dashboard">
+                    <i class="fas fa-gauge-high w-5 h-5"></i>
+                    <span class="font-medium text-sm sidebar-text">Dashboard</span>
+                </button>
+
+                <!-- Master Data -->
+                <div class="pt-4 pb-2 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider sidebar-text">Master Data</div>
+                <button onclick="navigate('jamaah')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="jamaah">
+                    <i class="fas fa-users w-5 h-5"></i>
+                    <span class="font-medium text-sm sidebar-text">Jamaah</span>
+                </button>
+                <button onclick="navigate('paket')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="paket">
+                    <i class="fas fa-box w-5 h-5"></i>
+                    <span class="font-medium text-sm sidebar-text">Paket Program</span>
+                </button>
+                <button onclick="navigate('agen')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="agen">
+                    <i class="fas fa-user-check w-5 h-5"></i>
+                    <span class="font-medium text-sm sidebar-text">Agen</span>
+                </button>
+
+                <!-- Transaksi -->
+                <div class="pt-4 pb-2 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider sidebar-text">Booking</div>
+                <button onclick="navigate('booking')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="booking">
+                    <i class="fas fa-calendar-plus w-5 h-5"></i>
+                    <span class="font-medium text-sm sidebar-text">New Booking</span>
+                </button>
+                <button onclick="navigate('seat')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="seat">
+                    <i class="fas fa-desktop w-5 h-5"></i>
+                    <span class="font-medium text-sm sidebar-text">Seat Monitoring</span>
+                </button>
+
+                <!-- Finance -->
+                <div class="pt-4 pb-2 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider sidebar-text">Finance</div>
+                <button onclick="navigate('invoice')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="invoice">
+                    <i class="fas fa-file-lines w-5 h-5"></i>
+                    <span class="font-medium text-sm sidebar-text">Invoice</span>
+                </button>
+                <button onclick="navigate('payment')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="payment">
+                    <i class="fas fa-credit-card w-5 h-5"></i>
+                    <span class="font-medium text-sm sidebar-text">Payment Hist.</span>
+                </button>
+                <button onclick="navigate('outstanding')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="outstanding">
+                    <i class="fas fa-circle-exclamation w-5 h-5"></i>
+                    <span class="font-medium text-sm sidebar-text">Outstanding</span>
+                </button>
+
+                <!-- Operations -->
+                <div class="pt-4 pb-2 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider sidebar-text">Operations</div>
+                <button onclick="navigate('manifest')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="manifest">
+                    <i class="fas fa-file-excel w-5 h-5"></i>
+                    <span class="font-medium text-sm sidebar-text">Manifest</span>
+                </button>
+                <button onclick="navigate('passport')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="passport">
+                    <i class="fas fa-scroll w-5 h-5"></i>
+                    <span class="font-medium text-sm sidebar-text">Passport Docs</span>
+                </button>
+
+                <!-- Marketing -->
+                <div class="pt-4 pb-2 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider sidebar-text">Marketing</div>
+                <button onclick="navigate('marketing')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="marketing">
+                    <i class="fas fa-gift w-5 h-5"></i>
+                    <span class="font-medium text-sm sidebar-text">Referral Reward</span>
+                </button>
+
+                <!-- System -->
+                <div class="pt-8 pb-2 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider sidebar-text">Sistem</div>
+                <button onclick="navigate('settings')" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg" data-view="settings">
+                    <i class="fas fa-gear w-5 h-5"></i>
+                    <span class="font-medium text-sm sidebar-text">Settings</span>
+                </button>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 flex flex-col overflow-hidden bg-slate-50/50">
+            <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-10">
+                <div class="flex items-center gap-4">
+                    <button id="toggle-sidebar" class="text-slate-400 hover:text-slate-600 transition-transform active:scale-90 lg:block">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2 id="view-title" class="font-semibold text-lg text-slate-800 tracking-tight">Dashboard</h2>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="relative hidden lg:block">
+                        <i class="fas fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                        <input type="text" placeholder="Cari data..." class="pl-10 pr-4 py-2 bg-slate-100/50 border border-transparent rounded-xl text-sm w-64 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:bg-white transition-all">
+                    </div>
+                    <div class="flex items-center gap-3 pl-6 border-l border-slate-100">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-xs font-bold">Ahmad Fauzi</p>
+                            <p class="text-[10px] text-slate-400 uppercase font-bold">Super Admin</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-md">AF</div>
+                    </div>
+                </div>
+            </header>
+
+            <div id="content" class="flex-1 overflow-y-auto p-8 animate-fade-in hide-scrollbar">
+                <!-- Content injected by JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-8 right-8 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl transform translate-y-32 transition-all duration-300 flex items-center gap-4 z-50">
+        <div class="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center">
+            <i class="fas fa-check text-green-400 w-4 h-4"></i>
+        </div>
+        <span id="toast-message" class="text-sm font-medium">Action successful</span>
+    </div>
+
+    <script>
+        const appData = {
+            jamaah: [
+                { id: 1, name: 'Budi Santoso', code: 'JM-001', address: 'Jl. Jend. Sudirman', status: 'Lunas', passport: 'Ada', outstanding: 0, gender: 'L', dob: '1985-05-12', passportNo: 'A1234567', phone: '08123456789', city: 'Jakarta' },
+                { id: 2, name: 'Siti Aminah', code: 'JM-002', address: 'Jl. Ahmad Yani', status: 'DP', passport: 'Proses', outstanding: 27500000, gender: 'P', dob: '1990-08-25', passportNo: '-', phone: '08123456788', city: 'Surabaya' },
+                { id: 3, name: 'Ahmad Zakaria', code: 'JM-003', address: 'Jl. Merdeka', status: 'Lunas', passport: 'Ada', outstanding: 0, gender: 'L', dob: '1978-02-15', passportNo: 'B9876543', phone: '08123456787', city: 'Bandung' },
+                { id: 4, name: 'Rina Rahayu', code: 'JM-004', address: 'Jl. Diponegoro', status: 'Outstanding', passport: 'Expired', outstanding: 32500000, gender: 'P', dob: '1995-11-30', passportNo: 'C5554443', phone: '08123456786', city: 'Medan' },
+            ],
+            agen: [
+                { id: 1, code: 'AG-001', name: 'Travel Berkah Mandiri', city: 'Jakarta', total: 45, commission: 12500000, rating: 4.8 },
+                { id: 2, code: 'AG-002', name: 'Haji Muda Solo', city: 'Solo', total: 28, commission: 7000000, rating: 4.5 },
+                { id: 3, code: 'AG-003', name: 'Nurul Iman Wisata', city: 'Bekasi', total: 12, commission: 3000000, rating: 4.2 }
+            ],
+            packages: [
+                { id: 1, name: 'Gold Umrah Nov 2026', code: 'PKG-NOV26', quota: 45, booked: 42, color: 'bg-amber-500', departure: '2026-11-10', price: 32500000 },
+                { id: 2, name: 'Ramadhan Full 2026', code: 'PKG-RAM26', quota: 50, booked: 20, color: 'bg-emerald-500', departure: '2026-03-15', price: 45000000 },
+                { id: 3, name: 'Promo Jan 2026', code: 'PKG-JAN26', quota: 30, booked: 30, color: 'bg-blue-500', departure: '2026-01-20', price: 27500000 }
+            ],
+            payments: [
+                { id: 1, inv: 'INV-2026-001', name: 'Budi Santoso', amount: 32500000, date: '2026-05-10', method: 'Bank Transfer', status: 'Success' },
+                { id: 2, inv: 'INV-2026-002', name: 'Siti Aminah', amount: 5000000, date: '2026-05-12', method: 'Cash', status: 'Success' },
+                { id: 3, inv: 'INV-2026-001', name: 'Ahmad Zakaria', amount: 32500000, date: '2026-05-14', method: 'Bank Transfer', status: 'Success' }
+            ],
+            referrals: [
+                { id: 1, name: 'Budi Santoso', count: 4, status: 'Qualified', history: ['Jamaah A', 'Jamaah B', 'Jamaah C', 'Jamaah D'] },
+                { id: 2, name: 'Ahmad Zakaria', count: 2, status: 'On Progress', history: ['Jamaah E', 'Jamaah F'] }
+            ]
+        };
+
+        function formatIDR(num) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(num);
+        }
+
+        // Seat Monitoring State & Helpers
+        let seatFilterState = { package: 'all', status: 'all', search: '' };
+
+        function getJamaahForPackage(packageName, bookedCount) {
+            const matched = appData.jamaah.filter(j => j.package === packageName);
+            const result = [];
+            for (let i = 0; i < bookedCount; i++) {
+                if (i < matched.length) {
+                    result.push(matched[i]);
+                } else {
+                    result.push(null);
+                }
+            }
+            return result;
+        }
+
+        function setSeatPackageFilter(pkg) {
+            seatFilterState.package = pkg;
+            updateSeatView();
+        }
+
+        function setSeatStatusFilter(status) {
+            seatFilterState.status = status;
+            document.querySelectorAll('.seat-status-tabs button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.status === status);
+            });
+            updateSeatView();
+        }
+
+        function onSeatSearch(e) {
+            seatFilterState.search = e.target.value.toLowerCase();
+            updateSeatView();
+        }
+
+        function toggleCollapse(packageName) {
+            const card = document.querySelector(`.seat-package-card[data-package="${packageName}"]`);
+            if (!card) return;
+            const body = card.querySelector('.seat-package-body');
+            const toggle = card.querySelector('.seat-package-toggle');
+            if (body.classList.contains('collapsed')) {
+                body.classList.remove('collapsed');
+                toggle.classList.remove('collapsed');
+            } else {
+                body.classList.add('collapsed');
+                toggle.classList.add('collapsed');
+            }
+        }
+
+        function updateSeatView() {
+            const container = document.getElementById('seat-container');
+            if (!container) return;
+            container.innerHTML = renderSeatContent();
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function renderSeatTooltip(jamaah, slotNum) {
+            if (!jamaah) return '';
+            return `
+                <div class="seat-tooltip">
+                    <div class="seat-tooltip-row"><span class="seat-tooltip-label">Slot</span><span class="seat-tooltip-value">#${String(slotNum).padStart(2,'0')}</span></div>
+                    <div class="seat-tooltip-row"><span class="seat-tooltip-label">Nama</span><span class="seat-tooltip-value">${jamaah.name}</span></div>
+                    <div class="seat-tooltip-row"><span class="seat-tooltip-label">Kode</span><span class="seat-tooltip-value">${jamaah.code}</span></div>
+                    <div class="seat-tooltip-row"><span class="seat-tooltip-label">Status</span><span class="seat-tooltip-value">${jamaah.status}</span></div>
+                    <div class="seat-tooltip-row"><span class="seat-tooltip-label">Passport</span><span class="seat-tooltip-value">${jamaah.passport}</span></div>
+                    <div class="seat-tooltip-row"><span class="seat-tooltip-label">Telepon</span><span class="seat-tooltip-value">${jamaah.phone}</span></div>
+                    <div class="seat-tooltip-row"><span class="seat-tooltip-label">Kota</span><span class="seat-tooltip-value">${jamaah.city}</span></div>
+                </div>
+            `;
+        }
+
+        function renderSeatContent() {
+            const { package: pkgFilter, status, search } = seatFilterState;
+            let packages = appData.packages;
+            if (pkgFilter !== 'all') {
+                packages = packages.filter(p => p.name === pkgFilter);
+            }
+
+            const totalQuota = appData.packages.reduce((sum, p) => sum + p.quota, 0);
+            const totalBooked = appData.packages.reduce((sum, p) => sum + p.booked, 0);
+            const totalAvailable = totalQuota - totalBooked;
+            const avgOccupancy = Math.round((totalBooked / totalQuota) * 100);
+
+            const getOccColor = (rate) => rate >= 90 ? 'red' : rate >= 70 ? 'amber' : 'blue';
+            const occColor = getOccColor(avgOccupancy);
+
+            const statCards = `
+                <div class="seat-stat-cards">
+                    <div class="seat-stat-card">
+                        <div class="stat-label">Total Kuota</div>
+                        <div class="stat-value">${totalQuota}</div>
+                    </div>
+                    <div class="seat-stat-card">
+                        <div class="stat-label">Terisi</div>
+                        <div class="stat-value">${totalBooked}</div>
+                    </div>
+                    <div class="seat-stat-card">
+                        <div class="stat-label">Tersedia</div>
+                        <div class="stat-value ${occColor}">${totalAvailable}</div>
+                    </div>
+                    <div class="seat-stat-card">
+                        <div class="stat-label">Occupancy</div>
+                        <div class="stat-value ${occColor}">${avgOccupancy}%</div>
+                    </div>
+                </div>
+            `;
+
+            const packageCards = packages.map((p, index) => {
+                const isFirst = index === 0;
+                const collapsedClass = isFirst ? '' : 'collapsed';
+                const occRate = Math.round((p.booked / p.quota) * 100);
+                const pColor = getOccColor(occRate);
+                const jamaahList = getJamaahForPackage(p.name, p.booked);
+                const slots = [];
+
+                for (let i = 1; i <= p.quota; i++) {
+                    const isBooked = i <= p.booked;
+                    const jamaah = isBooked ? jamaahList[i - 1] : null;
+                    const isOccupied = isBooked && jamaah !== null;
+
+                    if (status === 'booked' && !isOccupied) continue;
+                    if (status === 'available' && isOccupied) continue;
+
+                    let dimmed = false;
+                    if (search && isOccupied) {
+                        if (!jamaah.name.toLowerCase().includes(search)) {
+                            dimmed = true;
+                        }
+                    }
+
+                    if (isOccupied) {
+                        const initials = jamaah.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                        const genderClass = jamaah.gender === 'W' ? 'female' : 'male';
+                        const statusClass = jamaah.status === 'Lunas' ? 'status-lunas' : jamaah.status === 'DP' ? 'status-dp' : 'status-outstanding';
+                        const passportClass = jamaah.passport === 'Ada' ? 'passport-ada' : jamaah.passport === 'Proses' ? 'passport-proses' : 'passport-expired';
+
+                        slots.push(`
+                            <div class="seat-slot occupied ${dimmed ? 'dimmed' : ''}">
+                                <div class="seat-number">${String(i).padStart(2,'0')}</div>
+                                <div class="seat-avatar ${genderClass}">${initials}</div>
+                                <div class="seat-name" title="${jamaah.name}">${jamaah.name}</div>
+                                <div class="seat-code">${jamaah.code}</div>
+                                <div class="seat-badges">
+                                    <span class="seat-badge ${statusClass}">${jamaah.status}</span>
+                                    <span class="seat-badge ${passportClass}">${jamaah.passport}</span>
+                                </div>
+                                ${renderSeatTooltip(jamaah, i)}
+                            </div>
+                        `);
+                    } else {
+                        slots.push(`
+                            <div class="seat-slot available ${dimmed ? 'dimmed' : ''}">
+                                <div class="seat-number">${String(i).padStart(2,'0')}</div>
+                                <div class="seat-available-content">
+                                    <i class="fas fa-plus w-5 h-5"></i>
+                                    <span>Tersedia</span>
+                                </div>
+                            </div>
+                        `);
+                    }
+                }
+
+                // Group into rows of 5
+                const rows = [];
+                for (let i = 0; i < slots.length; i += 5) {
+                    rows.push(`<div class="seat-row">${slots.slice(i, i + 5).join('')}</div>`);
+                }
+
+                return `
+                    <div class="seat-package-card" data-package="${p.name}">
+                        <div class="seat-package-header" onclick="toggleCollapse('${p.name}')">
+                            <div class="seat-package-info">
+                                <h4>${p.name}</h4>
+                                <div class="seat-package-meta">
+                                    <span><i class="fas fa-tag w-3 h-3 inline"></i> ${p.code}</span>
+                                    <span><i class="fas fa-calendar w-3 h-3 inline"></i> ${p.departure}</span>
+                                    <span><i class="fas fa-money-bill w-3 h-3 inline"></i> ${formatIDR(p.price)}</span>
+                                </div>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:12px;">
+                                <div class="seat-occupancy-rate ${pColor}">${occRate}%</div>
+                                <div class="seat-package-toggle ${collapsedClass}">
+                                    <i class="fas fa-chevron-down w-4 h-4 text-slate-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="seat-package-body ${collapsedClass}">
+                            <div class="seat-progress-container">
+                                <div class="seat-progress-bar">
+                                    <div class="seat-progress-fill ${pColor}" style="width: ${occRate}%"></div>
+                                </div>
+                                <div class="seat-progress-stats">
+                                    <span>${p.booked} Terisi</span>
+                                    <span>${p.quota - p.booked} Tersedia</span>
+                                    <span>${p.quota} Total</span>
+                                </div>
+                            </div>
+                            <div class="seat-map-container">
+                                ${rows.join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return statCards + packageCards;
+        }
+
+        const views = {
+            dashboard: () => `
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center"><i class="fas fa-users"></i></div>
+                        <div><p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Total Jamaah</p><h3 class="text-xl font-extrabold tracking-tight">1,284</h3></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center"><i class="fas fa-wallet"></i></div>
+                        <div><p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Total Revenue</p><h3 class="text-xl font-extrabold tracking-tight">${formatIDR(2450000000)}</h3></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center"><i class="fas fa-chart-pie"></i></div>
+                        <div><p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Seat Occupancy</p><h3 class="text-xl font-extrabold tracking-tight">85%</h3></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center"><i class="fas fa-circle-exclamation"></i></div>
+                        <div><p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Outstanding</p><h3 class="text-xl font-extrabold tracking-tight text-red-500">${formatIDR(120000000)}</h3></div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+                        <div class="flex justify-between items-center mb-6">
+                            <h4 class="font-bold text-slate-800">Aktivitas Terkini</h4>
+                            <button class="text-blue-600 text-xs font-bold uppercase">Lihat Semua</button>
+                        </div>
+                        <div class="space-y-6">
+                            ${appData.payments.map(p => `
+                                <div class="flex items-start gap-4">
+                                    <div class="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                                    <div class="flex-1">
+                                        <p class="text-sm"><span class="font-bold">${p.name}</span> melakukan pembayaran <span class="text-emerald-600 font-bold">${formatIDR(p.amount)}</span></p>
+                                        <p class="text-[10px] text-slate-400 mt-1">${p.date} • via ${p.method}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="bg-blue-600 p-8 rounded-3xl text-white shadow-xl shadow-blue-200">
+                        <h4 class="font-bold mb-4">Target Penjualan 2026</h4>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm opacity-80">Progress Tahunan</span>
+                            <span class="font-bold">72%</span>
+                        </div>
+                        <div class="w-full h-3 bg-white/20 rounded-full overflow-hidden mb-8">
+                            <div class="h-full bg-white progress-bar" style="width: 72%"></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="p-4 bg-white/10 rounded-2xl border border-white/10">
+                                <p class="text-[10px] uppercase font-bold opacity-60 mb-1">Jamaah Terdaftar</p>
+                                <p class="text-2xl font-bold">842 <span class="text-xs font-normal opacity-60">Jamaah</span></p>
+                            </div>
+                            <div class="p-4 bg-white/10 rounded-2xl border border-white/10">
+                                <p class="text-[10px] uppercase font-bold opacity-60 mb-1">Sisa Kuota</p>
+                                <p class="text-2xl font-bold">158 <span class="text-xs font-normal opacity-60">Seat</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+
+            jamaah: () => `
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-2xl font-extrabold tracking-tight">Master Jamaah</h3>
+                    <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-blue-100">
+                        <i class="fas fa-plus w-4 h-4"></i> Tambah Jamaah
+                    </button>
+                </div>
+                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-50/50 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b">
+                            <tr>
+                                <th class="px-8 py-5">Kode / Nama</th>
+                                <th class="px-8 py-5">Jenis Kelamin</th>
+                                <th class="px-8 py-5">Kontak & Kota</th>
+                                <th class="px-8 py-5">Alamat</th>
+                                <th class="px-8 py-5">Passport</th>
+                                <th class="px-8 py-5">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            ${appData.jamaah.map(j => `
+                                <tr class="hover:bg-slate-50/50 transition-colors group">
+                                    <td class="px-8 py-5">
+                                        <p class="text-blue-600 font-mono text-[10px] font-bold mb-1">${j.code}</p>
+                                        <p class="font-bold text-sm">${j.name}</p>
+                                    </td>
+                                    <td class="px-8 py-5">
+                                        <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase ${j.gender === 'L' ? 'bg-blue-100 text-blue-600' : 'bg-pink-100 text-pink-600'}">
+                                            ${j.gender === 'L' ? 'Laki-laki' : 'Perempuan'}
+                                        </span>
+                                    </td>
+                                    <td class="px-8 py-5">
+                                        <p class="text-sm font-medium">${j.phone}</p>
+                                        <p class="text-[10px] text-slate-400 uppercase font-bold">${j.city}</p>
+                                    </td>
+                                    <td class="px-8 py-5">
+                                        <p class="text-xs font-bold text-slate-600">${j.address}</p>
+                                    </td>
+                                    <td class="px-8 py-5">
+                                        <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase ${j.passport === 'Ada' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}">
+                                            ${j.passport}
+                                        </span>
+                                    </td>
+                                    <td class="px-8 py-5">
+                                        <div class="flex gap-2">
+                                            <button class="flex items-center gap-1.5 px-3 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-bold transition-colors">
+                                                <i class="fas fa-eye w-3.5 h-3.5"></i> Detail
+                                            </button>
+                                            <button class="flex items-center gap-1.5 px-3 py-2 bg-slate-50 text-slate-600 hover:bg-slate-100 rounded-lg text-xs font-bold transition-colors">
+                                                <i class="fas fa-pen w-3.5 h-3.5"></i> Edit
+                                            </button>
+                                            <button class="flex items-center gap-1.5 px-3 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-xs font-bold transition-colors">
+                                                <i class="fas fa-trash w-3.5 h-3.5"></i> Hapus
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `,
+
+            paket: () => `
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-2xl font-extrabold tracking-tight">Paket Program</h3>
+                    <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
+                        <i class="fas fa-plus w-4 h-4"></i> Buat Paket Baru
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    ${appData.packages.map(p => `
+                        <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+                            <div class="h-2 w-full ${p.color}"></div>
+                            <div class="p-8 flex-1">
+                                <div class="flex justify-between items-start mb-4">
+                                    <h4 class="font-bold text-lg">${p.name}</h4>
+                                    <span class="text-[10px] font-mono bg-slate-100 px-2 py-1 rounded">${p.code}</span>
+                                </div>
+                                <div class="space-y-4 mb-8">
+                                    <div class="flex items-center gap-3 text-slate-500">
+                                        <i class="fas fa-calendar w-4 h-4"></i>
+                                        <span class="text-sm font-medium">Berangkat: ${p.departure}</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 text-slate-500">
+                                        <i class="fas fa-tag w-4 h-4"></i>
+                                        <span class="text-sm font-extrabold text-slate-900">${formatIDR(p.price)}</span>
+                                    </div>
+                                </div>
+                                <div class="mb-2 flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                    <span>Okupansi</span>
+                                    <span>${p.booked} / ${p.quota} Seat</span>
+                                </div>
+                                <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                                    <div class="h-full ${p.color} progress-bar" style="width: ${(p.booked/p.quota)*100}%"></div>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-slate-50 border-t flex justify-center">
+                                <button class="text-blue-600 text-xs font-bold hover:underline">Kelola Detail Paket</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `,
+
+            agen: () => `
+                <div class="mb-8">
+                    <h3 class="text-2xl font-extrabold tracking-tight">Data Agen Mitra</h3>
+                    <p class="text-sm text-slate-500">Monitoring performa dan komisi mitra agen travel</p>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                    ${appData.agen.map(a => `
+                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center justify-between">
+                            <div class="flex items-center gap-6">
+                                <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center font-bold text-xl">${a.name[0]}</div>
+                                <div>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">${a.code}</p>
+                                    <h4 class="font-bold text-lg">${a.name}</h4>
+                                    <p class="text-xs text-slate-400 flex items-center gap-1"><i class="fas fa-location-dot w-3 h-3"></i> ${a.city}</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-12 text-center">
+                                <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Total Jamaah</p><p class="text-lg font-bold">${a.total}</p></div>
+                                <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Total Komisi</p><p class="text-lg font-bold text-emerald-600">${formatIDR(a.commission)}</p></div>
+                                <div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400"><i class="fas fa-chevron-right w-4 h-4"></i></div></div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `,
+
+            booking: () => `
+                <div class="max-w-4xl mx-auto">
+                    <div class="mb-8 flex justify-between items-end">
+                        <div>
+                            <h3 class="text-2xl font-extrabold tracking-tight">New Booking</h3>
+                            <p class="text-sm text-slate-500">Input pendaftaran jamaah ke dalam sistem</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-3xl p-10 border border-slate-100 shadow-sm space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest border-b pb-2">1. Pilih Jamaah</h4>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Cari Nama Jamaah</label>
+                                    <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500">
+                                        <option>Pilih Jamaah dari Master Data...</option>
+                                        ${appData.jamaah.map(j => `<option>${j.name} (${j.code})</option>`).join('')}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Referral / Agen</label>
+                                    <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500">
+                                        <option>Direct (Tanpa Agen)</option>
+                                        ${appData.agen.map(a => `<option>${a.name}</option>`).join('')}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest border-b pb-2">2. Pilih Program</h4>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Paket Umrah</label>
+                                    <select id="pkg-select" class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500">
+                                        ${appData.packages.map(p => `<option value="${p.price}">${p.name} - ${formatIDR(p.price)}</option>`).join('')}
+                                    </select>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Tipe Kamar</label>
+                                        <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500">
+                                            <option>Quad</option>
+                                            <option>Triple (+2.5jt)</option>
+                                            <option>Double (+5jt)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Skema Bayar</label>
+                                        <select class="w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500">
+                                            <option>DP Awal</option>
+                                            <option>Cash Full</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-8 bg-slate-900 rounded-2xl text-white flex justify-between items-center">
+                            <div>
+                                <p class="text-[10px] font-bold opacity-60 uppercase tracking-wider">Total Estimasi Tagihan</p>
+                                <p id="total-estimasi" class="text-3xl font-extrabold tracking-tight">${formatIDR(32500000)}</p>
+                            </div>
+                            <button onclick="showToast('Booking berhasil dibuat!')" class="bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-xl font-bold transition-all flex items-center gap-2">
+                                <i class="fas fa-circle-check w-5 h-5"></i> Konfirmasi Booking
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `,
+
+            seat: () => `
+                <div class="mb-8">
+                    <h3 class="text-2xl font-extrabold tracking-tight">Seat Occupancy Monitoring</h3>
+                    <p class="text-sm text-slate-500">Monitoring ketersediaan slot jamaah per paket program</p>
+                </div>
+                <div class="seat-filter-bar">
+                    <select id="seat-pkg-filter" onchange="setSeatPackageFilter(this.value)">
+                        <option value="all">Semua Paket</option>
+                        ${appData.packages.map(p => `<option value="${p.name}">${p.name}</option>`).join('')}
+                    </select>
+                    <div class="seat-status-tabs">
+                        <button type="button" class="active" data-status="all" onclick="setSeatStatusFilter('all')">Semua</button>
+                        <button type="button" data-status="booked" onclick="setSeatStatusFilter('booked')">Terisi</button>
+                        <button type="button" data-status="available" onclick="setSeatStatusFilter('available')">Tersedia</button>
+                    </div>
+                    <input type="text" placeholder="Cari nama jamaah..." oninput="onSeatSearch(this)" />
+                </div>
+                <div id="seat-container">${renderSeatContent()}</div>
+            `,
+
+            invoice: () => `
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-2xl font-extrabold tracking-tight">Financial Invoices</h3>
+                    <div class="flex gap-2">
+                         <button class="bg-white border border-slate-200 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
+                             <i class="fas fa-filter w-4 h-4"></i> Filter
+                         </button>
+                         <button class="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
+                             <i class="fas fa-download w-4 h-4"></i> Export Rekap
+                         </button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-50/50 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b">
+                            <tr>
+                                <th class="px-8 py-5">Invoice #</th>
+                                <th class="px-8 py-5">Jamaah</th>
+                                <th class="px-8 py-5">Tagihan</th>
+                                <th class="px-8 py-5">Sisa</th>
+                                <th class="px-8 py-5">Status</th>
+                                <th class="px-8 py-5">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            ${appData.jamaah.map(j => `
+                                <tr>
+                                    <td class="px-8 py-5 font-mono text-sm text-blue-600 font-bold">INV/2026/${j.code}</td>
+                                    <td class="px-8 py-5 font-bold text-sm">${j.name}</td>
+                                    <td class="px-8 py-5 font-bold text-sm">${formatIDR(j.outstanding > 0 ? j.outstanding + 5000000 : 32500000)}</td>
+                                    <td class="px-8 py-5 font-bold text-red-500 text-sm">${formatIDR(j.outstanding)}</td>
+                                    <td class="px-8 py-5">
+                                        <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase ${j.status === 'Lunas' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}">
+                                            ${j.status}
+                                        </span>
+                                    </td>
+                                    <td class="px-8 py-5">
+                                        <button class="text-slate-400 hover:text-blue-600"><i class="fas fa-file-arrow-down w-5 h-5"></i></button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `,
+
+            payment: () => `
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-2xl font-extrabold tracking-tight">Payment Ledger</h3>
+                    <button class="bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-emerald-100">
+                        <i class="fas fa-circle-plus w-4 h-4"></i> Input Pembayaran
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-slate-50/50 text-[10px] font-bold text-slate-400 uppercase border-b">
+                                <tr>
+                                    <th class="px-6 py-4">Tanggal</th>
+                                    <th class="px-6 py-4">Jamaah</th>
+                                    <th class="px-6 py-4">Nominal</th>
+                                    <th class="px-6 py-4">Metode</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-50">
+                                ${appData.payments.map(p => `
+                                    <tr>
+                                        <td class="px-6 py-4 text-slate-400">${p.date}</td>
+                                        <td class="px-6 py-4 font-bold">${p.name}</td>
+                                        <td class="px-6 py-4 font-bold text-emerald-600">${formatIDR(p.amount)}</td>
+                                        <td class="px-6 py-4"><span class="bg-slate-100 text-[10px] font-bold px-2 py-1 rounded uppercase">${p.method}</span></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-8 rounded-3xl text-white">
+                         <h4 class="text-xs font-bold uppercase opacity-60 tracking-widest mb-4">Ringkasan Hari Ini</h4>
+                         <p class="text-3xl font-extrabold mb-8">${formatIDR(70000000)}</p>
+                         <div class="space-y-4">
+                            <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
+                                <span class="text-sm opacity-60">Bank Transfer</span>
+                                <span class="font-bold text-emerald-400">${formatIDR(65000000)}</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-white/5 rounded-xl">
+                                <span class="text-sm opacity-60">Cash / Tunai</span>
+                                <span class="font-bold text-emerald-400">${formatIDR(5000000)}</span>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            `,
+
+            outstanding: () => `
+                <div class="mb-8">
+                    <h3 class="text-2xl font-extrabold tracking-tight">Outstanding & H-35 Alerts</h3>
+                    <p class="text-sm text-slate-500">Monitoring piutang jamaah kritis (H-35 Pelunasan)</p>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                    ${appData.jamaah.filter(j => j.outstanding > 0).map(j => `
+                        <div class="bg-white p-8 rounded-3xl border-l-8 border-red-500 shadow-sm flex items-center justify-between">
+                            <div class="flex-1">
+                                <h4 class="font-extrabold text-xl">${j.name}</h4>
+                                <p class="text-sm text-slate-400 font-bold mb-4 uppercase tracking-widest">${j.package}</p>
+                                <div class="flex gap-12">
+                                    <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Total Piutang</p><p class="text-2xl font-black text-red-600">${formatIDR(j.outstanding)}</p></div>
+                                    <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Deadline H-35</p><p class="text-2xl font-black text-slate-800">12 <span class="text-xs font-bold uppercase opacity-60">Hari Lagi</span></p></div>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <button onclick="showToast('Reminder WA Terkirim!')" class="bg-green-100 text-green-600 px-6 py-3 rounded-2xl font-bold text-sm flex items-center gap-2 hover:bg-green-200 transition-all">
+                                    <i class="fas fa-comment w-5 h-5"></i> WA Reminder
+                                </button>
+                                <button class="bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold text-sm">Lihat Detail</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `,
+
+            manifest: () => `
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-2xl font-extrabold tracking-tight">Operational Manifest</h3>
+                    <div class="flex gap-2">
+                         <button class="bg-green-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
+                            <i class="fas fa-file-excel w-4 h-4"></i> Excel Manifest
+                         </button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-8">
+                    <div class="flex items-center gap-4 mb-8">
+                        <label class="text-xs font-bold text-slate-400 uppercase">Pilih Paket :</label>
+                        <select class="bg-slate-100 border-none rounded-xl px-4 py-2 text-sm font-bold focus:ring-2 focus:ring-blue-500">
+                            ${appData.packages.map(p => `<option>${p.name}</option>`).join('')}
+                        </select>
+                    </div>
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-[10px] font-bold text-slate-400 uppercase border-b">
+                            <tr>
+                                <th class="px-4 py-4">No</th>
+                                <th class="px-4 py-4">Nama Lengkap</th>
+                                <th class="px-4 py-4">JK</th>
+                                <th class="px-4 py-4">No. Passport</th>
+                                <th class="px-4 py-4">Status Bayar</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            ${appData.jamaah.map((j, i) => `
+                                <tr class="hover:bg-slate-50">
+                                    <td class="px-4 py-4 font-mono text-slate-400">${i+1}</td>
+                                    <td class="px-4 py-4 font-bold uppercase">${j.name}</td>
+                                    <td class="px-4 py-4 text-center font-bold">${j.gender}</td>
+                                    <td class="px-4 py-4 font-mono font-bold text-blue-600">${j.passportNo}</td>
+                                    <td class="px-4 py-4">
+                                        <span class="px-2 py-1 rounded text-[10px] font-bold uppercase ${j.status === 'Lunas' ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-400'}">${j.status}</span>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `,
+
+            passport: () => `
+                <div class="mb-8">
+                    <h3 class="text-2xl font-extrabold tracking-tight">Passport Document Storage</h3>
+                    <p class="text-sm text-slate-500">Monitoring berkas digital passport jamaah</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    ${appData.jamaah.map(j => `
+                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center"><i class="fas fa-passport w-6 h-6"></i></div>
+                                <span class="text-[10px] font-bold uppercase px-2 py-1 rounded ${j.passport === 'Ada' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}">${j.passport}</span>
+                            </div>
+                            <h4 class="font-bold mb-1">${j.name}</h4>
+                            <p class="text-[10px] font-mono text-slate-400 mb-6 uppercase">${j.passportNo}</p>
+                            <div class="flex gap-2">
+                                <button class="flex-1 bg-slate-100 text-slate-600 py-2 rounded-xl text-xs font-bold hover:bg-slate-200"><i class="fas fa-eye w-3 h-3 inline mr-1"></i> Preview</button>
+                                <button class="flex-1 bg-blue-600 text-white py-2 rounded-xl text-xs font-bold hover:bg-blue-700"><i class="fas fa-upload w-3 h-3 inline mr-1"></i> Upload</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `,
+
+            marketing: () => `
+                <div class="mb-8">
+                    <h3 class="text-2xl font-extrabold tracking-tight text-slate-900">Referral Reward (4 Gratis 1)</h3>
+                    <p class="text-sm text-slate-500">Sistem monitoring reward jamaah yang membawa rekan</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    ${appData.referrals.map(r => `
+                        <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden">
+                            ${r.status === 'Qualified' ? '<div class="absolute top-0 right-0 bg-blue-600 text-white px-4 py-2 font-bold text-[10px] rounded-bl-2xl">REWARD READY</div>' : ''}
+                            <div class="flex items-center gap-4 mb-8">
+                                <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 font-black text-2xl">${r.name[0]}</div>
+                                <div>
+                                    <h4 class="font-bold text-xl">${r.name}</h4>
+                                    <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">${r.status}</p>
+                                </div>
+                            </div>
+                            <div class="mb-2 flex justify-between text-sm font-bold">
+                                <span class="text-slate-500 uppercase text-[10px]">Progress Referral</span>
+                                <span class="text-blue-600 font-black tracking-widest">${r.count}/4</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-8">
+                                <div class="h-full bg-blue-600 progress-bar" style="width: ${(r.count/4)*100}%"></div>
+                            </div>
+                            <div class="space-y-3 mb-8">
+                                <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">History Jamaah Dibawa:</p>
+                                ${r.history.map(h => `<div class="flex items-center gap-2 text-xs font-medium text-slate-600 bg-slate-50 p-2 rounded-lg"><i class="fas fa-check w-3 h-3 text-green-500"></i> ${h}</div>`).join('')}
+                            </div>
+                            <button class="w-full py-4 rounded-2xl font-black text-sm transition-all ${r.status === 'Qualified' ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-slate-100 text-slate-400 cursor-not-allowed'}">
+                                ${r.status === 'Qualified' ? 'CLAIM FREE SEAT REWARD' : 'TIDAK DAPAT DIKLAIM'}
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            `,
+
+            settings: () => `
+                <div class="mb-8">
+                    <h3 class="text-2xl font-extrabold tracking-tight">System Settings</h3>
+                    <p class="text-sm text-slate-500">User Management & Role Permission</p>
+                </div>
+                <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="flex border-b overflow-x-auto">
+                        <button class="px-8 py-5 text-sm font-bold text-blue-600 border-b-2 border-blue-600">User Access</button>
+                        <button class="px-8 py-5 text-sm font-bold text-slate-400">Security</button>
+                        <button class="px-8 py-5 text-sm font-bold text-slate-400">System Logs</button>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-center mb-8">
+                            <h4 class="font-bold">Active Staff Users</h4>
+                            <button class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold">+ New User</button>
+                        </div>
+                        <div class="space-y-4">
+                            ${['Admin Fauzi (Owner)', 'Rina Finance (Staff)', 'Tio Operations (Staff)'].map(user => `
+                                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center font-bold text-slate-400 border">${user[0]}</div>
+                                        <div><p class="text-sm font-bold">${user}</p><p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Active Access</p></div>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button class="p-2 text-slate-400 hover:text-blue-600"><i class="fas fa-sliders w-4 h-4"></i></button>
+                                        <button class="p-2 text-slate-400 hover:text-red-500"><i class="fas fa-trash w-4 h-4"></i></button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `
+        };
+
+        function navigate(view) {
+            const content = document.getElementById('content');
+            const viewTitle = document.getElementById('view-title');
+            
+            if (views[view]) {
+                content.innerHTML = `<div class="animate-fade-in">${views[view]()}</div>`;
+                
+                const titleMap = {
+                    'dashboard': 'Dashboard Overview',
+                    'jamaah': 'Master Jamaah',
+                    'paket': 'Paket Keberangkatan',
+                    'agen': 'Master Agen Travel',
+                    'booking': 'New Booking Registration',
+                    'seat': 'Seat Occupancy Monitoring',
+                    'invoice': 'Financial Invoice Ledger',
+                    'payment': 'History Pembayaran',
+                    'outstanding': 'Outstanding Payment Control',
+                    'manifest': 'Operational Manifest',
+                    'passport': 'Passport Documents Storage',
+                    'marketing': 'Referral Reward Program',
+                    'settings': 'System Control Panel'
+                };
+                
+                viewTitle.innerText = titleMap[view] || view;
+            }
+
+            // Update Active Class for Sidebar Buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                const isActive = btn.getAttribute('data-view') === view;
+                if (isActive) {
+                    btn.classList.add('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-200');
+                    btn.classList.remove('text-slate-600', 'hover:bg-slate-50');
+                } else {
+                    btn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-200');
+                    btn.classList.add('text-slate-600', 'hover:bg-slate-50');
+                }
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = message;
+            toast.classList.remove('translate-y-32');
+            setTimeout(() => toast.classList.add('translate-y-32'), 3000);
+        }
+
+        window.onload = () => {
+            // Wait for CDN libs
+            setTimeout(() => {
+                navigate('dashboard');
+                
+                // Toggle Sidebar Logic
+                document.getElementById('toggle-sidebar').onclick = () => {
+                    const sidebar = document.getElementById('sidebar');
+                    const isCollapsed = sidebar.classList.contains('w-20');
+                    
+                    if (isCollapsed) {
+                        sidebar.classList.remove('w-20');
+                        sidebar.classList.add('w-64');
+                        document.querySelectorAll('.sidebar-text').forEach(el => el.classList.remove('hidden'));
+                    } else {
+                        sidebar.classList.remove('w-64');
+                        sidebar.classList.add('w-20');
+                        document.querySelectorAll('.sidebar-text').forEach(el => el.classList.add('hidden'));
+                    }
+                };
+            }, 100);
+        };
+    </script>
+</body>
+</html>
